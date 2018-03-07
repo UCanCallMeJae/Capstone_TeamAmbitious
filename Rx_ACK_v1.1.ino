@@ -6,7 +6,7 @@
 #define CE_PIN 7 //Define the pins
 #define CSN_PIN 8
 
-const byte address[6] = "00001"; //The address in the pipe
+const byte address[5] = {'R', 'x', 'A', 'A', 'A'}; //The address in the pipe
 
 RF24 radio(CE_PIN, CSN_PIN); //Create radio
 
@@ -14,7 +14,8 @@ char dataReceived[10]; //MUST MATCH Tx
 int ackData[2] = {109, -4000}; //ACK data we send to master, to confirm received data
 bool newData = false; //Boolean used for obvious reasons
 int moistureLevel = 438;
-
+int trashLevel = 75;
+int waterOn = 0;
 //======================>
 
 
@@ -46,7 +47,7 @@ void loop() {// put your main code here, to run repeatedly:
 void getData() { //Function to grab new data off pipe
   if(radio.available()){ //If there is data in the pipe address
     radio.read(&dataReceived, sizeof(dataReceived)); //Read it
-    updateReplyData(); //Update our ACK data in this function
+    processData(); //Update our ACK data in this function
     newData = true; //Set the newData flag to true
   }
 }
@@ -63,14 +64,43 @@ void showData() { //Show data
   }
 }
 //=================================>>
-void updateReplyData() { //Update our acknowledgment data
-    ackData[0] -= 1; //Index 0 is now value - 1
-    ackData[1] -= 1;// Same for Index 1
-    if (ackData[0] < 100) { //Reset data if its below 100
-        ackData[0] = 109;
-    }
-    if (ackData[1] < -4009) { //Same below 4000
-        ackData[1] = -4000;
-    }
+void processData() { //Update our acknowledgment data
+    
+    if(strcmp(dataReceived, "WaterLvl") == 0){
+      ackData[0] = '0';
+      ackData[1] = moistureLevel;
     radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
+   /** ackData[0] = '0';
+    ackData[1] = '0'; **/
+    }
+    if(strcmp(dataReceived, "Water") == 0){
+      waterOn ++;
+      ackData[0] = '0';
+      ackData[1] = waterOn;
+    radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
+   /** ackData[0] = '0';
+    ackData[1] = '0'; **/
+    }
+    if(strcmp(dataReceived, "Reset") == 0){
+     waterOn = 0;
+    }
+    if(strcmp(dataReceived, "TrashLvl") == 0){
+      ackData[0] = '0';
+      ackData[1] = trashLevel;
+    radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
+    ackData[0] = '0';
+    ackData[1] = '0';
+    }
+    else{
+     /** ackData[0] -= 1; //Index 0 is now value - 1
+      ackData[1] -= 1;// Same for Index 1
+      if (ackData[0] < 100) { //Reset data if its below 100
+          ackData[0] = 109;
+      }
+      if (ackData[1] < -4009) { //Same below 4000
+          ackData[1] = -4000;
+      } 
+    radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something **/
+    Serial.println("Received but did nothing");
+    }
 }
