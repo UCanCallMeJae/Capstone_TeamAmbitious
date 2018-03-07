@@ -6,22 +6,23 @@
 
 #define CE_PIN 7
 #define CSN_PIN 8
-
-const byte slaveAddress[5] = {'R','x','A','A','A'}; //Our address, matching the one with slave
+//Vars for Radio Comms
 RF24 radio(CE_PIN, CSN_PIN); //Create the radio
-
-char dataToSend[10] = "Message 0"; //The data we want to send
-String command = "";
-char txNum = '0';
-int ackData[2] = {-1, -1}; // To hold the values coming from slave
 bool newData = false;
+char dataToSend[10] = "Message 0"; //The data we want to send
+char txNum = '0';
+const byte slaveAddress[5] = {'R','x','A','A','A'}; //Our address, matching the one with slave
+int ackData[2] = {-1, -1}; // To hold the values coming from slave
+String command = "";
+
 unsigned long currentMillis;
 unsigned long prevMillis;
 unsigned long txIntervalMillis = 1000; //Send once per second
 
-//Vars for receiving user input
+//Vars for receiving / processing user input
 const byte numChars = 10;
 char receivedChars[numChars];   // an array to store the received data
+char convertedChar = ' ';
 
 boolean newCharData = false;
 boolean commandReceived = false;
@@ -61,7 +62,7 @@ void send(){
   rslt = radio.write(&receivedChars, sizeof(receivedChars)); //Rslt is result of write() [true or false]
 
   Serial.print("Data Sent ---> ");
-  Serial.println(receivedChars);
+  Serial.print(receivedChars);
   if(rslt){ //If the transmission was successful
     if(radio.isAckPayloadAvailable()){ //If ACK data is available
       radio.read(&ackData, sizeof(ackData)); //Read the payload
@@ -84,8 +85,9 @@ void send(){
 
 void showData(){ //Show the acknowledge data
   if(newData == true){ //If we have new data
+    convertedChar = ackData[0];
     Serial.print(" Acknowledge data ");
-    Serial.print(ackData[0]);
+    Serial.print(convertedChar);
     Serial.print(", ");
     Serial.println(ackData[1]);
     Serial.println();
