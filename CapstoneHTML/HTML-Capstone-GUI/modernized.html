@@ -1,0 +1,326 @@
+ <!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Modernized screen</title>
+	<style type="text/css">
+
+		/* Layout */
+		body {
+			min-width: 630px;
+		}
+
+		#container {
+			padding-left: 200px;
+			padding-right: 190px;
+		}
+		
+		#container .column {
+			position: relative;
+			float: left;
+		}
+		
+		#center {
+			padding: 10px 20px;
+			width: 100%;
+		}
+		
+		#left {
+			width: 180px;
+			padding: 0 10px;
+			right: 240px;
+			margin-left: -100%;
+		}
+		
+		#right {
+			width: 130px;
+			padding: 0 10px;
+			margin-right: -100%;
+		}
+		
+		#footer {
+			clear: both;
+		}
+		
+		/* IE hack */
+		* html #left {
+			left: 150px;
+		}
+
+		/* Make the columns the same height as each other */
+		#container {
+			overflow: hidden;
+		}
+
+		#container .column {
+			padding-bottom: 1080em;
+			margin-bottom: -1000em;
+		}
+
+		
+		* html body {
+			overflow: hidden;
+		}
+		
+		* html #footer-wrapper {
+			float: left;
+			position: relative;
+			width: 100%;
+			padding-bottom: 10010px;
+			margin-bottom: -10000px;
+			background: #fff;
+		}
+
+		
+		body {
+			margin: 0;
+			padding: 0;
+			font-family:Sans-serif;
+			line-height: 1.5em;
+		}
+		
+		
+
+		
+
+		#header, #footer {
+			font-size: large;
+			padding: 0.5em;
+			background: #BCCE98;
+		}
+
+		#left {
+			background: #DAE9BC;
+		}
+		
+		#right {
+			background: #F7FDEB;
+		}
+
+		#center {
+			background: #fff;
+		}
+
+		#container .column {
+			padding-top: 1em;
+		}
+		
+		
+		
+		
+----------------------------------
+		
+		
+{
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+
+
+----------------------------------------------
+
+#slides {
+    position: relative;
+    height: 50px;
+	width: 50px;
+    padding: 50px;
+    margin: 50px;
+    list-style-type: none;
+}
+
+.slide {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 1;
+
+    -webkit-transition: opacity 1s;
+    -moz-transition: opacity 1s;
+    -o-transition: opacity 1s;
+    transition: opacity 1s;
+}
+
+.showing {
+    opacity: 1;
+    z-index: 2;
+}
+
+
+.slide {
+    font-size: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    background: #333;
+    color: #fff;
+	
+}
+
+.slide:nth-of-type(1) {
+    background: red;
+	height: 250px;
+	width: 250px;
+	margin-left: 1000px;
+	margin-top: 200px;
+}
+.slide:nth-of-type(2) {
+    background: orange;
+	height: 250px;
+	width: 250px;
+	margin-left: 1000px;
+	margin-top: 200px;
+}
+.slide:nth-of-type(3) {
+    background: green;
+	height: 250px;
+	width: 250px;
+	margin-left: 1000px;
+	margin-top: 200px;
+}
+.slide:nth-of-type(4) {
+    background: blue;
+	height: 50px;
+	width: 50px;
+	margin-left: 200px;
+}
+.slide:nth-of-type(5) {
+    background: purple;
+	height: 50px;
+	width: 50px;
+	
+}
+
+
+
+
+
+
+		
+	</style>
+	
+	
+</head>
+
+
+
+<body>
+
+
+<ul id="slides">
+    <img src="test1.jpg" class="slide showing"></img>
+     <img src="test2.jpg" class="slide showing"></img>
+     <img src="test3.jpg" class="slide showing"></img>
+	 
+	 
+
+
+</ul>
+
+
+<script>
+var slides = document.querySelectorAll('#slides .slide');
+var currentSlide = 0;
+var slideInterval = setInterval(nextSlide,2000);
+
+function nextSlide() {
+    slides[currentSlide].className = 'slide';
+    currentSlide = (currentSlide+1)%slides.length;
+    slides[currentSlide].className = 'slide showing';
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+<div class="topnav">
+  <a class="active" href="home.html">Home</a>
+  <a href="irrigation.html">Irrigation</a>
+  <a href="modernized.html">Modernized Screen</a>
+  <a href="trashcan.html">Trash Can</a>
+</div>
+
+<div style="padding-left:16px">
+  
+</div>
+
+
+
+
+
+
+
+<header id="header"><p></p></header>
+
+	<div id="container">
+
+		<main id="center" class="column">
+			
+			<h1>Modernized Screen</h1>
+			
+			<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11544.842570794779!2d-79.4206809!3d43.6645888!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x70a99ed8ba8aaf44!2sChristie+Pits+Park!5e0!3m2!1sen!2sca!4v1520028694576" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+			
+	     
+			<div style="width:400px; margin-right:400px; margin-top:-90px; margin-left:auto; border:1px solid #000;">	 
+
+<form>
+  <input id="test" type="file" name="pic" accept="image/*">
+  <input id="test" type="submit">
+</form>
+
+</div>
+
+										
+		</main>
+
+		<nav id="left" class="column">
+			
+			<h3></h3>
+			
+		</nav>
+
+		<div id="right" class="column">
+			
+		</div>
+
+	</div>
+
+	<div id="footer-wrapper">
+		<footer id="footer"><p></p></footer>
+	</div>
+
+</body>
+
+</html>
