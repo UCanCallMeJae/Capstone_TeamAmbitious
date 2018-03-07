@@ -16,13 +16,18 @@ bool newData = false; //Boolean used for obvious reasons
 int moistureLevel = 438;
 int trashLevel = 75;
 int waterOn = 0;
+
+// Vars for LED control 0 is off 1 is on
+int LEDState = 0;
+bool LED = false;
 //======================>
 
 
 void setup() {// put your setup code here, to run once:
   Serial.begin(9600);
-
-  Serial.println("Program beginning...");
+  pinMode(4, OUTPUT);
+  Serial.println("Pin for LED powered!");
+  Serial.println("Radio program beginning...");
   radio.begin(); //Begin radio setup
   radio.setDataRate( RF24_250KBPS ); //Setting our data rate, lower means farther
   radio.openReadingPipe(1, address); //Open the reading pipe to our Tx
@@ -32,7 +37,7 @@ void setup() {// put your setup code here, to run once:
                                                       //(pipe, buf, size)
   
   radio.startListening(); //Start receiver mode                                                   
-  
+  Serial.println("Listening...");
 
 }
 //=================================>>
@@ -66,9 +71,9 @@ void showData() { //Show data
 //=================================>>
 void processData() { //Update our acknowledgment data
     
-    if(strcmp(dataReceived, "WaterLvl") == 0){
-      ackData[0] = '0';
-      ackData[1] = moistureLevel;
+    if(strcmp(dataReceived, "WaterLvl") == 0){ // If the received command is WaterLvl
+      ackData[0] = '0'; //Assign this value to ackData index 0
+      ackData[1] = moistureLevel; //Include the moisture level
     radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
    /** ackData[0] = '0';
     ackData[1] = '0'; **/
@@ -91,6 +96,21 @@ void processData() { //Update our acknowledgment data
     ackData[0] = '0';
     ackData[1] = '0';
     }
+    if(strcmp(dataReceived, "LEDSTATE") == 0){
+      ackData[0] = '0';
+      ackData[1] = checkLEDState();
+    radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
+    ackData[0] = '0';
+    ackData[1] = '0';
+    }
+    if(strcmp(dataReceived, "LED") == 0){
+      changeLEDState();
+      ackData[0] = '0';
+      ackData[1] = checkLEDState();
+    radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
+    ackData[0] = '0';
+    ackData[1] = '0';
+    }
     else{
      /** ackData[0] -= 1; //Index 0 is now value - 1
       ackData[1] -= 1;// Same for Index 1
@@ -103,4 +123,19 @@ void processData() { //Update our acknowledgment data
     radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something **/
     Serial.println("Received but did nothing");
     }
+}
+int checkLEDState(){
+  return LEDState;
+}
+void changeLEDState(){
+  if(!LED){
+    LEDState = 1;
+    LED = true;
+    digitalWrite(4, HIGH);
+  }
+  else{
+    LEDState = 0;
+    LED = false;
+    digitalWrite(4, LOW);
+  }
 }
