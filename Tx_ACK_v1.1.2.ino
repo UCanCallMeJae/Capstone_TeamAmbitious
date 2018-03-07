@@ -8,8 +8,9 @@
 #define CSN_PIN 8
 //Vars for Radio Comms
 RF24 radio(CE_PIN, CSN_PIN); //Create the radio
+const byte numChars = 10;
 bool newData = false;
-char dataToSend[10] = "Message 0"; //The data we want to send
+char dataToSend[numChars] = "Message 0"; //The data we want to send
 char txNum = '0';
 const byte slaveAddress[5] = {'R','x','A','A','A'}; //Our address, matching the one with slave
 int ackData[2] = {-1, -1}; // To hold the values coming from slave
@@ -20,12 +21,14 @@ unsigned long prevMillis;
 unsigned long txIntervalMillis = 1000; //Send once per second
 
 //Vars for receiving / processing user input
-const byte numChars = 10;
+
 char receivedChars[numChars];   // an array to store the received data
 char convertedChar = ' ';
 
 boolean newCharData = false;
 boolean commandReceived = false;
+
+//Vars for LED control
 
 //=====================>>
 void setup() {
@@ -47,10 +50,12 @@ void loop() {
   recvWithEndMarker();
   if(commandReceived){ //If it has been the amount of time equal to txIntervalMillis
     send(); //Send function
+    processData();
     commandReceived = false;
   }
   showData(); //Show it
-  showNewData();
+  showNewData(); //Set newData for commands to false
+  
 
 }
 
@@ -135,4 +140,12 @@ void showNewData() {
     if (newCharData == true) {
         newCharData = false;
     }
+}
+void processData(){
+  if(strcmp((receivedChars), "LEDSTATE") == 0){
+    Serial.print("LED STATE IS ");
+    Serial.println(ackData[1]);
+    
+  }
+  
 }
