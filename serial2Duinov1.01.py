@@ -27,13 +27,13 @@ def debug(description):
         print(description)
 
 
-while True:
-        command = constructCommand()
-        if command == "exit\n":
-                exit("User requested application close.")
-        else:
-                send(command)
-                print(receiveResponse())
+#while True:
+#        command = constructCommand()
+ #       if command == "exit\n":
+               #exit("User requested application close.")
+   #     else:
+        #        send(command)
+           #     print(receiveResponse())
 
 
 
