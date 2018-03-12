@@ -20,7 +20,7 @@ def exit(excuse):
         print(excuse)
         quit()
 def receiveResponse():
-        debug("Reading serial line")
+#       debug("Reading serial line")
         response = ser.readline()
         return response
 def debug(description):
@@ -28,13 +28,12 @@ def debug(description):
 
 
 #while True:
-#        command = constructCommand()
- #       if command == "exit\n":
-               #exit("User requested application close.")
-   #     else:
-        #        send(command)
-           #     print(receiveResponse())
-
+#       command = constructCommand()
+#       if command == "exit\n":
+#               exit("User requested application close.")
+#       else:
+#               send(command)
+#               print(receiveResponse())
 
 
 
