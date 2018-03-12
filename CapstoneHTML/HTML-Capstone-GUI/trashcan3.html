@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -174,10 +174,12 @@
                 <main id="center" class="column">
 
                         <h1>Trash Can</h1>
-                                                                                <form action="" method="get">
-                                                                                <button type="text" name="check" value="true">Check trash level!</button>
-                                                                                <button type="text" name="LED" value="trigger">LED</button>
-                                                                                </form>
+                                          <form action="http://192.168.0.144:5000/TrashLvl">
+                                            <button type="submit">Check trash level!</button>
+                                          </form>
+                                          <form action="http://192.168.0.144:5000/LEDLvl">
+                                            <button type="submit">LED</button>
+                                          </form>
                 </main>
 
                 <nav id="left" class="column">
