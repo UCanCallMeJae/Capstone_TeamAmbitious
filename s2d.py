@@ -5,17 +5,17 @@ ser = serial.Serial('/dev/ttyACM0', 9600) #Create the object (path to port, baud
 
 ser.flushInput() #Flush the serial input
 
-print ser.portstr #Print our port
+print (ser.portstr) #Print our port
 
 def constructCommand(): #Function to get our command
         command = raw_input("Please enter a command: ")
-        command += '\n' #Termination signals end of your command
+        command += '\n'.encode() #Termination signals end of your command
         return command
 
 def send(command):
         ser.write(command) #Send to the Arduino
         ser.flushInput()
-        print('Command sent via serial ---> ' + command)
+        print('Command sent via serial ---> ' + command.decode('UTF-8'))
 def exit(excuse):
         print(excuse)
         quit()
@@ -34,6 +34,4 @@ def debug(description):
 #       else:
 #               send(command)
 #               print(receiveResponse())
-
-
 
