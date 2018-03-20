@@ -15,7 +15,6 @@ int ackData[2] = {109, -4000}; //ACK data we send to master, to confirm received
 bool newData = false; //Boolean used for obvious reasons
 int moistureLevel = 438;
 int trashLevel = 75;
-int trashLevel1 = 75;
 int waterOn = 0;
 int pinLED = 4;
 
@@ -29,13 +28,10 @@ const int echoPin = 5;
 long duration;
 int distance;
 
-//========Second Sonic Sensor
 const int trigPin1 = 6;
 const int echoPin1 = 9;
 long duration1;
-int distance1;
-
-
+long distance1;
 //======================>
 
 
@@ -44,6 +40,8 @@ void setup() {// put your setup code here, to run once:
   pinMode(4, OUTPUT);
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+  pinMode(trigPin1, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin1, INPUT); // Sets the echoPin as an Input
   Serial.println("Pin for LED powered!");
   Serial.println("Radio program beginning...");
   radio.begin(); //Begin radio setup
@@ -115,11 +113,11 @@ void processData() { //Update our acknowledgment data
     ackData[1] = '0'; **/
     storeTrashLvl(); /**Run our trash level func**/
     Serial.println("Trash Lvl stored");
-    ackData[0] = trashLevel1;
+    ackData[0] = '0';
     ackData[1] = trashLevel;
     }
     if(strcmp(dataReceived, "gTrashLvl") == 0){
-    ackData[0] = trashLevel1;
+    ackData[0] = '0';
     ackData[1] = trashLevel; 
     radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
     ackData[0] = '0';
@@ -174,38 +172,13 @@ void changeLEDState(){
 }
 //============================>>
 void storeTrashLvl(){
-  // Clears the trigPin
-    digitalWrite(trigPin, LOW);
-    delayMicroseconds(2);
-    // Sets the trigPin on HIGH state for 10 micro seconds
-    digitalWrite(trigPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trigPin, LOW);
-    // Reads the echoPin, returns the sound wave travel time in microseconds
-    duration = pulseIn(echoPin, HIGH);
-    // Calculating the distance
-    distance= duration*0.034/2;
-    // Prints the distance on the Serial Monitor
-    delay(100); //So we get ONE value
-    Serial.println(distance);
-    trashLevel = distance;
-
-
-    // Clears the trigPin
-    digitalWrite(trigPin1, LOW);
-    delayMicroseconds(2);
-    // Sets the trigPin on HIGH state for 10 micro seconds
-    digitalWrite(trigPin1, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trigPin1, LOW);
-    // Reads the echoPin, returns the sound wave travel time in microseconds
-    duration1 = pulseIn(echoPin1, HIGH);
-    // Calculating the distance
-    distance1 = duration1*0.034/2;
-    // Prints the distance on the Serial Monitor
-    delay(100); //So we get ONE value
-    Serial.println(distance1);
-    trashLevel1 = distance1;
+ 
+    activateSensor(trigPin, echoPin, 0);
+    delay(5);
+    activateSensor(trigPin1, echoPin1, 1);
+    
+    
+    trashLevel = (distance + distance1)/2;
 }
 //========================>>
 void startupSeq(){
@@ -218,4 +191,32 @@ void startupSeq(){
   changeLEDState();
   delay(350);
   
+}
+// ===========================>>
+void activateSensor(const int triPin, const int echPin, int sensorID){
+   // Clears the trigPin
+    digitalWrite(triPin, LOW);
+    delayMicroseconds(2);
+    // Sets the trigPin on HIGH state for 10 micro seconds
+    digitalWrite(triPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(triPin, LOW);
+    // Reads the echoPin, returns the sound wave travel time in microseconds
+    
+    if(sensorID == 0){
+      // Calculating the distance
+      duration = pulseIn(echPin, HIGH);
+      distance= duration*0.034/2;
+      // Prints the distance on the Serial Monitor
+      delay(100); //So we get ONE value
+      Serial.println(distance);
+    }
+    if(sensorID == 1){
+      // Calculating the distance
+      duration1 = pulseIn(echPin, HIGH);
+      distance1 = duration1 *0.034/2;
+      // Prints the distance on the Serial Monitor
+      delay(100); //So we get ONE value
+      Serial.println(distance1);
+    }
 }
