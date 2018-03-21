@@ -35,9 +35,6 @@ def trashCanIndex():
 @app.route('/TrashLvl')
 def TrashLvl():
         send("trashLvl\n".encode())
-        time.sleep(0.2);
+        time.sleep(1);
         send("gTrashLvl\n".encode())
         return render_template('trashcan.html', response=receiveResponse())
-
-
-

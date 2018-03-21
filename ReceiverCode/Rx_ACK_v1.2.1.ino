@@ -27,6 +27,11 @@ const int trigPin = 3;
 const int echoPin = 5;
 long duration;
 int distance;
+
+const int trigPin1 = 6;
+const int echoPin1 = 9;
+long duration1;
+long distance1;
 //======================>
 
 
@@ -35,6 +40,8 @@ void setup() {// put your setup code here, to run once:
   pinMode(4, OUTPUT);
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+  pinMode(trigPin1, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin1, INPUT); // Sets the echoPin as an Input
   Serial.println("Pin for LED powered!");
   Serial.println("Radio program beginning...");
   radio.begin(); //Begin radio setup
@@ -165,21 +172,13 @@ void changeLEDState(){
 }
 //============================>>
 void storeTrashLvl(){
-  // Clears the trigPin
-    digitalWrite(trigPin, LOW);
-    delayMicroseconds(2);
-    // Sets the trigPin on HIGH state for 10 micro seconds
-    digitalWrite(trigPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trigPin, LOW);
-    // Reads the echoPin, returns the sound wave travel time in microseconds
-    duration = pulseIn(echoPin, HIGH);
-    // Calculating the distance
-    distance= duration*0.034/2;
-    // Prints the distance on the Serial Monitor
-    delay(100); //So we get ONE value
-    Serial.println(distance);
-    trashLevel = distance;
+ 
+    activateSensor(trigPin, echoPin, 0);
+    delay(5);
+    activateSensor(trigPin1, echoPin1, 1);
+    
+    
+    trashLevel = (distance + distance1)/2;
 }
 //========================>>
 void startupSeq(){
@@ -192,4 +191,32 @@ void startupSeq(){
   changeLEDState();
   delay(350);
   
+}
+// ===========================>>
+void activateSensor(const int triPin, const int echPin, int sensorID){
+   // Clears the trigPin
+    digitalWrite(triPin, LOW);
+    delayMicroseconds(2);
+    // Sets the trigPin on HIGH state for 10 micro seconds
+    digitalWrite(triPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(triPin, LOW);
+    // Reads the echoPin, returns the sound wave travel time in microseconds
+    
+    if(sensorID == 0){
+      // Calculating the distance
+      duration = pulseIn(echPin, HIGH);
+      distance= duration*0.034/2;
+      // Prints the distance on the Serial Monitor
+      delay(100); //So we get ONE value
+      Serial.println(distance);
+    }
+    if(sensorID == 1){
+      // Calculating the distance
+      duration1 = pulseIn(echPin, HIGH);
+      distance1 = duration1 *0.034/2;
+      // Prints the distance on the Serial Monitor
+      delay(100); //So we get ONE value
+      Serial.println(distance1);
+    }
 }
