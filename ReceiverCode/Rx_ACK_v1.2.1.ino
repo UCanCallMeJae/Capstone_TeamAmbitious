@@ -32,6 +32,12 @@ const int trigPin1 = 6;
 const int echoPin1 = 9;
 long duration1;
 long distance1;
+
+int RelayPin = 2;
+int RelayState = 0;
+bool RELAY = false;
+
+
 //======================>
 
 
@@ -42,6 +48,9 @@ void setup() {// put your setup code here, to run once:
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
   pinMode(trigPin1, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin1, INPUT); // Sets the echoPin as an Input
+
+  pinMode(RelayPin, OUTPUT);
+  
   Serial.println("Pin for LED powered!");
   Serial.println("Radio program beginning...");
   radio.begin(); //Begin radio setup
@@ -140,6 +149,23 @@ void processData() { //Update our acknowledgment data
     ackData[0] = '0';
     ackData[1] = '0';
     }
+
+    if(strcmp(dataReceived, "RelayState") == 0){
+      ackData[0] = '0';
+      ackData[1] = checkRelayState();
+    radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
+    ackData[0] = '0';
+    ackData[1] = '0';
+    }
+    if(strcmp(dataReceived, "RELAY") == 0){
+      changeRelayState();
+      ackData[0] = '0';
+      ackData[1] = checkRelayState();
+    radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
+    ackData[0] = '0';
+    ackData[1] = '0';
+    }
+    
     else{
      /** ackData[0] -= 1; //Index 0 is now value - 1
       ackData[1] -= 1;// Same for Index 1
@@ -168,6 +194,23 @@ void changeLEDState(){
     LEDState = 0;
     LED = false;
     digitalWrite(pinLED, LOW);
+  }
+}
+//============================>>
+int checkRelayState(){
+  return RelayState;
+}
+//=============================>>
+void changeRelayState(){
+  if(!RELAY){
+    RelayState = 1;
+    RELAY = true;
+    digitalWrite(RelayPin, HIGH);
+  }
+  else{
+    RelayState = 0;
+    RELAY = false;
+    digitalWrite(RelayPin, LOW);
   }
 }
 //============================>>
