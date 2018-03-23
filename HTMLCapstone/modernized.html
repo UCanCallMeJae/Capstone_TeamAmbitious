@@ -1,0 +1,104 @@
+ <!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Modernized screen</title>
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">	
+</head>
+
+
+
+<body>
+
+
+<ul id="slides">
+    <img src="test1.jpg" class="slide showing"></img>
+     <img src="test2.jpg" class="slide showing"></img>
+     <img src="test3.jpg" class="slide showing"></img>
+	 
+	 
+
+
+</ul>
+
+
+<script>
+var slides = document.querySelectorAll('#slides .slide');
+var currentSlide = 0;
+var slideInterval = setInterval(nextSlide,2000);
+
+function nextSlide() {
+    slides[currentSlide].className = 'slide';
+    currentSlide = (currentSlide+1)%slides.length;
+    slides[currentSlide].className = 'slide showing';
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+<div class="topnav">
+  <a class="active" href="home.html">Home</a>
+  <a href="irrigation.html">Irrigation</a>
+  <a href="modernized.html">Modernized Screen</a>
+  <a href="trashcan.html">Trash Can</a>
+</div>
+
+<div style="padding-left:16px">
+  
+</div>
+
+
+
+
+
+
+
+<header id="header"><p></p></header>
+
+	<div id="container">
+
+		<main id="center" class="column">
+			
+			<h1>Modernized Screen</h1>
+			
+			<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11544.842570794779!2d-79.4206809!3d43.6645888!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x70a99ed8ba8aaf44!2sChristie+Pits+Park!5e0!3m2!1sen!2sca!4v1520028694576" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+			
+	     
+			<div style="width:400px; margin-right:400px; margin-top:-90px; margin-left:auto; border:1px solid #000;">	 
+
+<form>
+  <input id="test" type="file" name="pic" accept="image/*">
+  <input id="test" type="submit">
+</form>
+
+</div>
+
+										
+		</main>
+
+		<nav id="left" class="column">
+			
+			<h3></h3>
+			
+		</nav>
+
+		<div id="right" class="column">
+			
+		</div>
+
+	</div>
+
+	<div id="footer-wrapper">
+		<footer id="footer"><p></p></footer>
+	</div>
+
+</body>
+
+</html>
