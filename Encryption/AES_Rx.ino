@@ -9,14 +9,14 @@
 #define CSN_PIN 8
 
 const byte address[5] = {'R', 'x', 'A', 'A', 'A'}; //The address in the pipe
-const byte numChars = 10;
-const byte cipherSize = 17; //?
+const byte numChars = 17;
+const byte cipherSize = 33; //?
 
 RF24 radio(CE_PIN, CSN_PIN); //Create radio
 AES aes ; //Create AES instance
 
 char encryptedData[cipherSize];
-char dataReceived[10]; //MUST MATCH Tx
+char dataReceived[numChars]; //MUST MATCH Tx
 int ackData[2] = {109, -4000}; //ACK data we send to master, to confirm received data
 bool newData = false; //Boolean used for obvious reasons
 int moistureLevel = 438;
@@ -49,6 +49,7 @@ byte iv [N_BLOCK] ; //Our iv size of N_BLOCK ?
 const int plainPaddedLength = sizeof(plain) + (N_BLOCK - ((sizeof(plain) - 1) % 16)); // length of padded plaintext [B]
 byte cipher [plainPaddedLength]; // var to store ciphertext (encrypted plaintext)
 byte check [plainPaddedLength]; // var to store our decrypted plaintext
+char receivedCipher[cipherSize];
 
 //======================>
 
@@ -85,8 +86,13 @@ void loop() {// put your main code here, to run repeatedly:
 
 void getData() { //Function to grab new data off pipe
   if(radio.available()){ //If there is data in the pipe address
-    radio.read(&cipher, sizeof(cipher)); //Read it and put it in dataReceived
-    aesFunc(keyLength[0], false);
+    radio.read(&receivedCipher, sizeof(receivedCipher)); //Read it and put it in dataReceived
+    for(int i = 0; i < sizeof(receivedCipher); i++){
+      cipher[i] = receivedCipher[i];
+    }
+    Serial.print("receivedCipher : ");
+    aes.printArray(cipher, (bool)false);
+    //aesFunc(keyLength[0], false); 
     processData(); //Update our ACK data in this function
     newData = true; //Set the newData flag to true
   }
@@ -95,7 +101,7 @@ void getData() { //Function to grab new data off pipe
 void showData() { //Show data
   if(newData == true){  //If there is new data, print it out
         Serial.print("Data received ");
-        Serial.println(dataReceived);
+        Serial.println(receivedCipher);
         Serial.print(" ackPayload sent "); //Print our ackPayload
         Serial.print(ackData[0]); //Send data in ackData index 0
         Serial.print(", ");
