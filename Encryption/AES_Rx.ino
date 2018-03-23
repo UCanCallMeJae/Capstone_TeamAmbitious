@@ -15,6 +15,7 @@ const byte cipherSize = 17; //?
 RF24 radio(CE_PIN, CSN_PIN); //Create radio
 AES aes ; //Create AES instance
 
+char encryptedData[cipherSize];
 char dataReceived[10]; //MUST MATCH Tx
 int ackData[2] = {109, -4000}; //ACK data we send to master, to confirm received data
 bool newData = false; //Boolean used for obvious reasons
@@ -84,7 +85,8 @@ void loop() {// put your main code here, to run repeatedly:
 
 void getData() { //Function to grab new data off pipe
   if(radio.available()){ //If there is data in the pipe address
-    radio.read(&dataReceived, sizeof(dataReceived)); //Read it and put it in dataReceived
+    radio.read(&cipher, sizeof(cipher)); //Read it and put it in dataReceived
+    aesFunc(keyLength[0], false);
     processData(); //Update our ACK data in this function
     newData = true; //Set the newData flag to true
   }
@@ -235,4 +237,43 @@ void activateSensor(const int triPin, const int echPin, int sensorID){
       delay(100); //So we get ONE value
       Serial.println(distance1);
     }
+}
+//============================>>
+void aesFunc (int bits, bool isEncrypt)
+{
+  aes.iv_inc(); //Increment the IV to randomize
+  
+  
+
+  //-----------------------ENCRYPT----------------------------->>
+  if (isEncrypt) {
+    aes.set_IV(myIv); //Update IV, this randomizes output each time
+    aes.get_IV(iv);
+
+    Serial.print("Encrypting plaintext:   ");
+    aes.printArray(plain, (bool)true); //print plain with no padding
+    aes.do_aes_encrypt(plain, sizeof(plain), cipher, key, bits, iv); //Encrypt function?
+    Serial.println("Done!");
+    Serial.print("Cipher text:  ");
+    aes.printArray(cipher, (bool)false); //print cipher with padding
+
+    Serial.print("Cipher text size:  ");
+    Serial.println(sizeof(cipher));
+
+  }
+
+  //-----------------------DECRYPT----------------------------->>
+  if (!isEncrypt) {
+    aes.set_IV(myIv); //Update IV
+    aes.get_IV(iv);
+
+    Serial.print("Decrypting..."); //Start timer for decryption
+    aes.do_aes_decrypt(cipher, aes.get_size(), check, key, bits, iv);
+    Serial.println("Done!");
+    Serial.print("Decrypted cipher text: ");
+    aes.printArray(check, (bool)true); //print decrypted plain with no padding
+
+  }
+
+
 }
