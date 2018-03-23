@@ -12,7 +12,7 @@
 RF24 radio(CE_PIN, CSN_PIN); //Create the radio
 AES aes ; //Create AES instance
 
-const byte numChars = 10;
+const byte numChars = 17;
 bool newData = false;
 char dataToSend[numChars] = "Message 0"; //The data we want to send
 char txNum = '0';
@@ -37,7 +37,7 @@ boolean commandReceived = false;
 //AES Vars
 unsigned int keyLength [3] = {128, 192, 256}; // key length: 128b, 192b or 256b
 byte *key = (unsigned char*)"01234567890123456789012345678901"; // encryption key (32B / 256b*, 24B / 192b, 16B / 128b)
-char plain[numChars] = "LED\n"; // plaintext to encrypt
+byte plain[numChars]; // plaintext to encrypt
 
 unsigned long long int myIv = 36753562; // CBC initialization vector; real iv = iv x2 ex: 01234567 = 0123456701234567
 
@@ -70,6 +70,8 @@ void loop() {
     for (int i = 0; i < sizeof(receivedChars); i++) {
       plain[i] = receivedChars[i];
     }
+    Serial.print("Plain value: ");
+    aes.printArray(plain, (bool)true); //print cipher with padding
     send(); //Send function
     processData();
     commandReceived = false;
@@ -85,10 +87,10 @@ void loop() {
 void send(){
   bool rslt; //Boolean for radio transmission
   aesFunc(keyLength[0], true);
-  rslt = radio.write(&receivedChars, sizeof(receivedChars)); //Rslt is result of write() [true or false]
-  aesFunc(keyLength[0], false);
+  rslt = radio.write(&cipher, sizeof(cipher)); //Rslt is result of write() [true or false]
+  //aesFunc(keyLength[0], false);
   Serial.print("Data Sent ---> ");
-  Serial.print(receivedChars);
+  aes.printArray(cipher, (bool)false); //print cipher with padding
   if(rslt){ //If the transmission was successful
     if(radio.isAckPayloadAvailable()){ //If ACK data is available
       radio.read(&ackData, sizeof(ackData)); //Read the payload
@@ -152,6 +154,7 @@ void recvWithEndMarker() {
             ndx = 0;
             newCharData = true;
             commandReceived = true;
+            Serial.flush();
         }
     }
 }
@@ -184,11 +187,11 @@ void aesFunc (int bits, bool isEncrypt)
     aes.set_IV(myIv); //Update IV, this randomizes output each time
     aes.get_IV(iv);
 
-    Serial.print("Encrypting plaintext:   ");
+    Serial.print("Encrypting plaintext: ");
     aes.printArray(plain, (bool)true); //print plain with no padding
     aes.do_aes_encrypt(plain, sizeof(plain), cipher, key, bits, iv); //Encrypt function?
     Serial.println("Done!");
-    Serial.print("Cipher text:  ");
+    Serial.print("Cipher text: ");
     aes.printArray(cipher, (bool)false); //print cipher with padding
 
     Serial.print("Cipher text size:  ");
