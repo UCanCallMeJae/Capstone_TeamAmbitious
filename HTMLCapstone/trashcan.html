@@ -3,8 +3,7 @@
 <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Trash Can</title>
-       <link href="style.css" type="text/css" rel="stylesheet"/>
-
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
 
 </head>
 
@@ -41,6 +40,9 @@
                                           <form action="http://192.168.0.144:5000/LEDLvl">
                                             <button type="submit">LED</button>
                                           </form>
+					  <form action="http://192.168.0.144:5000/RelayState">
+					    <button type="submit">Relay</button>
+					  </form>
                 <h3>{{ response }}</h3>
                 </main>
 

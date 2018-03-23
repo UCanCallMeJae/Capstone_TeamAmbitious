@@ -38,3 +38,7 @@ def TrashLvl():
         time.sleep(1);
         send("gTrashLvl\n".encode())
         return render_template('trashcan.html', response=receiveResponse())
+@app.route('/RelayState')
+def relay():
+	send("RELAY\n".encode())
+	return render_template('trashcan.html', response=receiveResponse())
