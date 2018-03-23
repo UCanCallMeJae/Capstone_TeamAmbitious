@@ -8,7 +8,7 @@
 
 #define CE_PIN 7
 #define CSN_PIN 8
-
+returnCipher();
 //Vars for Radio Comms
 RF24 radio(CE_PIN, CSN_PIN); //Create the radio
 AES aes ; //Create AES instance
@@ -198,7 +198,7 @@ void aesFunc(int bits, bool isEncrypt){
     aes.do_aes_decrypt(cipher,aes.get_size(),check,key,bits,iv); 
     Serial.println("Done!");
     Serial.print("Decrypted cipher text: ");
-    aes.printArray(check,(bool)true); //print decrypted plain with no padding
+    aes.printArray(check,(bool)true); //print decrywpted plain with no padding
 
   }
     byte returnCipher(){
