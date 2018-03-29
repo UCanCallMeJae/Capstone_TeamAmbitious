@@ -15,8 +15,7 @@ Notes & Troubleshooting: |
 
 - If Flask complains about another instance already running:
   - Enter: ps -fA | grep -e "flask" 
-    -This will show you any instances running
-      -Go ahead and kill the process using: sudo kill [process#]
+     - Go ahead and kill the process using: sudo kill [process#]
 
 
 
@@ -27,7 +26,6 @@ Notes & Troubleshooting: |
 Pin Mappings| 
 ------------  
 
-              -----
 Arduino Pin --> NRF24L01+ Pin:  
   3.3v --> 1
   GND --> 2
