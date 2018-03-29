@@ -6,22 +6,22 @@ Notes & Troubleshooting: |
 -------------------------
 
 - CSS and other styling files should be kept within /static/styles/ 
-  --- Where / is the directory from which the main Flask application is run
--render_template() checks for HTML files in /templates/
-  --- Where / is the directory from which the main Flask application is run
+  - Where / is the directory from which the main Flask application is run
+- render_template() checks for HTML files in /templates/
+  - Where / is the directory from which the main Flask application is run
   
 - Ensure that the master Arduino is plugged into the correct port (/dev/ACM* for Arduino devices) corresponding to the port defined in S2D.py
 
 
 - If Flask complains about another instance already running:
-  --- Enter: ps -fA | grep -e "flask" 
-    ---This will show you any instances running
-      ---Go ahead and kill the process using: sudo kill [process#]
+  - Enter: ps -fA | grep -e "flask" 
+    -This will show you any instances running
+      -Go ahead and kill the process using: sudo kill [process#]
 
 
 
 - If master transmitter reports Tx Failed:
-  ---Check the antennas (are they bent, soldering is okay?)
+ - Check the antennas (are they bent, soldering is okay?)
 
 -------------------------------------------------------------------------
 Pin Mappings| 
