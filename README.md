@@ -2,7 +2,7 @@
 Capstone project code, materials, and misc.
 
 -------------------------------------------------------------------------
-Notes & Troubleshooting: |
+Notes & Troubleshooting: 
 -------------------------
 
 - CSS and other styling files should be kept within /static/styles/ 
@@ -20,10 +20,10 @@ Notes & Troubleshooting: |
 
 
 - If master transmitter reports Tx Failed:
- - Check the antennas (are they bent, soldering is okay?)
+  - Check the antennas (are they bent, soldering is okay?)
 
 -------------------------------------------------------------------------
-Pin Mappings| 
+Pin Mappings
 ------------  
 
 Arduino Pin --> NRF24L01+ Pin:  
