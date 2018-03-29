@@ -10,24 +10,23 @@ Notes & Troubleshooting: |
 -render_template() checks for HTML files in /templates/
   --- Where / is the directory from which the main Flask application is run
   
--Ensure that the master Arduino is plugged into the correct port (/dev/ACM* for Arduino devices) corresponding to the port defined in S2D.py
+- Ensure that the master Arduino is plugged into the correct port (/dev/ACM* for Arduino devices) corresponding to the port defined in S2D.py
 
 
--If Flask complains about another instance already running:
+- If Flask complains about another instance already running:
   --- Enter: ps -fA | grep -e "flask" 
     ---This will show you any instances running
       ---Go ahead and kill the process using: sudo kill [process#]
 
 
 
--If master transmitter reports Tx Failed:
+- If master transmitter reports Tx Failed:
   ---Check the antennas (are they bent, soldering is okay?)
 
 -------------------------------------------------------------------------
-Pin Mappings| |1|2|
-------------  |3|4|
-  BACK SIDE   |5|6|
-  *CLKCrstl*  |7|8|
+Pin Mappings| 
+------------  
+
               -----
 Arduino Pin --> NRF24L01+ Pin:  
   3.3v --> 1
