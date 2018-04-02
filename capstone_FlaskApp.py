@@ -1,9 +1,16 @@
 
+import pymysql
 from flask import *
 from s2d import *
 import time
+timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+
 app = Flask(__name__) #Create objects
 
+
+#SQL Prep
+db = pymysql.connect("127.0.0.1", "pi", "pi", "Capstone")
+cursor = db.cursor()
 
 
 @app.route('/')
@@ -25,8 +32,12 @@ def modernizedIndex():
 @app.route('/LEDLvl')
 def LED():
         send('LED\n'.encode()) #Command sent using send() from s2d
+        one, two = receiveResponse().decode().split(",")
+#        print(parseResponse)
+#        parseResponse.split(".")
+#        print(parseResponse)
 #       return "Command Sent"
-        return render_template('trashcan.html', response=receiveResponse())
+        return render_template('trashcan.html', response=two)
 
 @app.route('/trashcan.html')
 def trashCanIndex():
@@ -37,7 +48,19 @@ def TrashLvl():
         send("trashLvl\n".encode())
         time.sleep(1);
         send("gTrashLvl\n".encode())
-        return render_template('trashcan.html', response=receiveResponse())
+        one, two = receiveResponse().decode().split(",")
+        currentLevel = two
+#        parseResponse = receiveResponse()
+#        parseResponse.split(".", 1)
+#        print(parseResponse)
+        sql = "INSERT INTO TRASH (Level, Time) VALUES (%s, %s)"
+        try:
+                cursor.execute(sql, (currentLevel, timestamp))
+                db.commit()
+        except:
+                db.rollback()
+                print("ERROR")
+        return render_template('trashcan.html', response=two)
 @app.route('/RelayState')
 def relay():
 	send("RELAY\n".encode())
