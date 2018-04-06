@@ -13,6 +13,7 @@ bool newData = false;
 char dataToSend[numChars] = "Message 0"; //The data we want to send
 char txNum = '0';
 const byte slaveAddress[5] = {'R','x','A','A','A'}; //Our address, matching the one with slave
+const byte slaveAddress2[5] = {'R', 'x', 'A', 'A', 'B'};
 int ackData[2] = {-1, -1}; // To hold the values coming from slave
 String command = "";
 
@@ -63,6 +64,12 @@ void loop() {
 
 void send(){
   bool rslt; //Boolean for radio transmission
+  if(receivedChars[0] == '2'){
+    radio.openWritingPipe(slaveAddress2);
+  }
+  else{
+    radio.openWritingPipe(slaveAddress);
+  }
 
   rslt = radio.write(&receivedChars, sizeof(receivedChars)); //Rslt is result of write() [true or false]
 
