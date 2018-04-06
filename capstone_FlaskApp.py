@@ -7,6 +7,10 @@ import os
 timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
 
 app = Flask(__name__) #Create objects
+#if __name__ == "__main__":
+app.secret_key = os.urandom(12)
+#app.run(debug=True, host='0.0.0.0', port=5000)
+
 
 
 #SQL Prep
@@ -50,20 +54,20 @@ def modernizedIndex():
 
 @app.route('/LEDLvl')
 def LED():
-	if not session.get('logged_in'):
-		return render_template('login.html')
-	else:
-        	send('LED\n'.encode()) #Command sent using send() from s2d
-        	try:
-			one, two = receiveResponse().decode().split(",")
-		except (ValueError, UnboundLocalError):
-			two = "ERROR"
-			pass
+        if not session.get('logged_in'):
+                return render_template('login.html')
+        else:
+                send('LED\n'.encode()) #Command sent using send() from s2d
+                try:
+                        one, two = receiveResponse().decode().split(",")
+                except (ValueError, UnboundLocalError):
+                        two = "ERROR"
+                        pass
 #        print(parseResponse)
 #        parseResponse.split(".")
 #        print(parseResponse)
 #       return "Command Sent"
-        	return render_template('trashcan.html', response=two)
+                return render_template('trashcan.html', response=two)
 
 @app.route('/trashcan.html')
 def trashCanIndex():
@@ -72,30 +76,29 @@ def trashCanIndex():
 	else:
         	return render_template('trashcan.html')
 
-@app.route('/TrashLvl')
-def TrashLvl():
+def trashLvl():
 	if not session.get('logged_in'):
 		return render_template('login.html')
 	else:
-        	send("trashLvl\n".encode())
-        	time.sleep(1);
-        	send("gTrashLvl\n".encode())
-        	try:
+		send("trashLvl\n".encode())
+		time.sleep(1)
+		send("gTrashLvl\n".encode())
+		try:
 			one, two = receiveResponse().decode().split(",")
-        		currentLevel = two
+			currentLevel = two
 		except (ValueError, UnboundLocalError):
 			currentLevel = "000"
-#        	parseResponse = receiveResponse()
-#        	parseResponse.split(".", 1)
-#        	print(parseResponse)
-        	sql = "INSERT INTO TRASH (Level, Time) VALUES (%s, %s)"
-        	try:
-                	cursor.execute(sql, (currentLevel, timestamp))
-                	db.commit()
-        	except:
-                	db.rollback()
-                	print("ERROR")
-        	return render_template('trashcan.html', response=currentLevel)
+		parseResponse = receiveResponse()
+		parseResponse.split(".", 1)
+		print(parseResponse)
+		sql = "INSERT INTO TRASH (Level, Time) VALUES (%s, %s)"
+		try:
+			cursor.execute(sql, (currentLevel, timestamp))
+			db.commit()
+		except:
+			db.rollback()
+			print("ERROR")
+		return render_template("trashcan.html", response=currentLevel)
 @app.route('/RelayState')
 def relay():
 	if not session.get('logged_in'):
@@ -104,6 +107,6 @@ def relay():
 		send("RELAY\n".encode())
 		return render_template('trashcan.html', response=receiveResponse())
 
-if __name__ == "__main__":
-	app.secret_key = os.urandom(12)
-	app.run(debug=True, host='0.0.0.0', port=5000)
+#if __name__ == "__main__":
+#	app.secret_key = os.urandom(12)
+#	app.run(debug=True, host='0.0.0.0', port=5000)
