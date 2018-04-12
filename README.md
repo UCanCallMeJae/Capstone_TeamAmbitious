@@ -9,6 +9,8 @@ Notes & Troubleshooting:
   - Where / is the directory from which the main Flask application is run
 - render_template() checks for HTML files in /templates/
   - Where / is the directory from which the main Flask application is run
+- Images for slideshow should be in /static/
+  - Where / is the directory from which the main Flask application is run
   
 - Ensure that the master Arduino is plugged into the correct port (/dev/ACM* for Arduino devices) corresponding to the port defined in S2D.py
 
