@@ -1,0 +1,82 @@
+ <!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Modernized screen</title>
+	<link rel= "stylesheet" type= "text/css" href= "/static/styles/style.css">	
+</head>
+<body>
+
+{% include 'navbar.html' %}
+
+<div style="padding-left:16px">
+  
+</div>
+
+
+
+<div style="padding-left:16px">
+  
+</div>
+
+
+
+
+
+
+
+<header id="header"><p></p></header>
+
+	<div id="container">
+
+		<main id="center" class="column">
+			<h1>Edit Uploaded Images</h1>
+			<form action="/editDB" method="POST">
+				<table>
+				{% for item in img %}
+					<tr>
+						<td><img src='static/{{item[2]}}' alt='{{item[2]}}'><input type="checkbox" name="img" value="{{item[0]}}"></td>
+					</tr>
+				{% endfor %}
+				</table>
+				<input type="submit" value="Submit">
+			</form>
+			<div style="width:400px; margin-right:400px; margin-top:-90px; margin-left:auto; border:0px solid #000;"> 
+			</div>							
+		</main>
+
+		<nav id="left" class="column">
+			
+			<h3></h3>
+			
+		</nav>
+
+		<div id="right" class="column">
+			
+		</div>
+
+	</div>
+
+	<div id="footer-wrapper">
+		<footer id="footer"><p></p></footer>
+	</div>
+	<script>
+		var myIndex = 0;
+		carousel();
+		function carousel() {
+      			var i;
+      			var x = document.getElementsByClassName("mySlides");
+      			for (i = 0; i < x.length; i++) {
+         			x[i].style.display = "none";
+      			}
+      			myIndex++;
+      			if (myIndex > x.length) {myIndex = 1}
+      			x[myIndex-1].style.display = "block";
+      			setTimeout(carousel, 1000); // Change image every 10 seconds
+		}
+
+	</script>
+
+</body>
+
+</html>

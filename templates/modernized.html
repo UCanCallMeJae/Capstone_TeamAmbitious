@@ -5,50 +5,9 @@
 	<title>Modernized screen</title>
 	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">	
 </head>
-
-
-
 <body>
 
-
-<ul id="slides">
-    <img src="test1.jpg" class="slide showing"></img>
-     <img src="test2.jpg" class="slide showing"></img>
-     <img src="test3.jpg" class="slide showing"></img>
-	 
-	 
-
-
-</ul>
-
-
-<script>
-var slides = document.querySelectorAll('#slides .slide');
-var currentSlide = 0;
-var slideInterval = setInterval(nextSlide,2000);
-
-function nextSlide() {
-    slides[currentSlide].className = 'slide';
-    currentSlide = (currentSlide+1)%slides.length;
-    slides[currentSlide].className = 'slide showing';
-}
-</script>
-
-
-
-
-
-
-
-
-
-
-<div class="topnav">
-  <a class="active" href="home.html">Home</a>
-  <a href="irrigation.html">Irrigation</a>
-  <a href="modernized.html">Modernized Screen</a>
-  <a href="trashcan.html">Trash Can</a>
-</div>
+{% include 'navbar.html' %}
 
 <div style="padding-left:16px">
   
@@ -65,22 +24,19 @@ function nextSlide() {
 	<div id="container">
 
 		<main id="center" class="column">
-			
 			<h1>Modernized Screen</h1>
-			
-			<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11544.842570794779!2d-79.4206809!3d43.6645888!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x70a99ed8ba8aaf44!2sChristie+Pits+Park!5e0!3m2!1sen!2sca!4v1520028694576" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
-			
-	     
-			<div style="width:400px; margin-right:400px; margin-top:-90px; margin-left:auto; border:1px solid #000;">	 
-
-<form>
-  <input id="test" type="file" name="pic" accept="image/*">
-  <input id="test" type="submit">
-</form>
-
-</div>
-
-										
+			<form action = "http://192.168.0.144:5000/uploader" method = "POST" enctype = "multipart/form-data">
+				<input type = "file" name = "file" />
+				<input type = "submit"/>
+				<a href="http://192.168.0.144:5000/edit">Edit Pictures</a>
+			</form>
+			<div class = "slideContent" style="max-width:500px">
+			{% for item in img %}
+				<img class="mySlides" src='static/{{item[2]}}' alt='{{item[2]}}' style = 'width:100%'>
+			{% endfor %}
+			</div>
+			<div style="width:400px; margin-right:400px; margin-top:-90px; margin-left:auto; border:0px solid #000;"> 
+			</div>							
 		</main>
 
 		<nav id="left" class="column">
@@ -98,6 +54,22 @@ function nextSlide() {
 	<div id="footer-wrapper">
 		<footer id="footer"><p></p></footer>
 	</div>
+	<script>
+		var myIndex = 0;
+		carousel();
+		function carousel() {
+      			var i;
+      			var x = document.getElementsByClassName("mySlides");
+      			for (i = 0; i < x.length; i++) {
+         			x[i].style.display = "none";
+      			}
+      			myIndex++;
+      			if (myIndex > x.length) {myIndex = 1}
+      			x[myIndex-1].style.display = "block";
+      			setTimeout(carousel, 1000); // Change image every 10 seconds
+  }
+
+	</script>
 
 </body>
 
