@@ -1,6 +1,7 @@
 
 import pymysql
 from flask import *
+from werkzeug import secure_filename
 from s2d import *
 import time
 import os
@@ -16,6 +17,9 @@ app.secret_key = os.urandom(12)
 #SQL Prep
 db = pymysql.connect("127.0.0.1", "pi", "pi", "Capstone")
 cursor = db.cursor()
+
+#Path for uploaded files
+UPLOAD_FOLDER = '/home/pi/Desktop/Capstone/'
 
 
 @app.route('/')
@@ -49,7 +53,10 @@ def modernizedIndex():
 	if not session.get('logged_in'):
 		return render_template('login.html')
 	else:
-        	return render_template('modernized.html')
+		sql = "SELECT * FROM uploads"
+		cursor.execute(sql)
+		data = cursor.fetchall()
+		return render_template('modernized.html', img=data)
 
 
 @app.route('/LEDLvl')
@@ -107,6 +114,59 @@ def relay():
 		send("RELAY\n".encode())
 		return render_template('trashcan.html', response=receiveResponse())
 
+@app.route('/uploader', methods = ['POST'])
+def upload_file():
+	if not session.get('logged_in'):
+		return render_template('login.html')
+	else:
+		if request.method == 'POST':
+			f = request.files['file']
+			file_name = f.filename
+			print(file_name)
+			img_path = os.path.join(UPLOAD_FOLDER, 'static', secure_filename(f.filename))
+			f.save(img_path)
+			print(img_path)
+			sql = "INSERT INTO uploads (image_path, image_name) VALUES (%s, %s)"
+			try:
+				cursor.execute(sql, (img_path, file_name))
+				db.commit()
+			except:
+				db.rollback()
+				print("ERROR")
+		return modernizedIndex()
+
+@app.route('/edit')
+def edit_images():
+	if not session.get('logged_in'):
+		return render_template('login.html')
+	else:
+		sql = "SELECT * FROM uploads"
+		cursor.execute(sql)
+		data = cursor.fetchall()
+		return render_template('edit.html', img=data)
+
+@app.route('/editDB', methods=['POST'])
+def makeChanges():
+	if not session.get('logged_in'):
+		return render_template('login.html')
+	else:
+		response = request.form.getlist('img')
+		for img in response:
+			sql = "SELECT * FROM uploads WHERE id = %s"
+			cursor.execute(sql, (img))
+			img_name = cursor.fetchall()
+			sql2 = "DELETE FROM uploads WHERE id IN (%s)"
+			image_path = img_name[0][1]
+			print(image_path)
+			try:
+				cursor.execute(sql2, (response))
+				db.commit()
+				os.remove(image_path)
+				print("REMOVED")
+			except:
+				db.rollback()
+				print("Error removing")
+		return modernizedIndex()
 #if __name__ == "__main__":
 #	app.secret_key = os.urandom(12)
 #	app.run(debug=True, host='0.0.0.0', port=5000)
