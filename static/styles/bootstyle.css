@@ -1,0 +1,59 @@
+#f2  {
+margin-left: 40px;
+margin-top: 27px;
+}
+#f3 {
+width: 100px;
+}
+#f10
+{
+    border-style: solid;
+    border-width:1px;
+    border-color: #D5DBDB;
+    border-radius: 6px;
+    height: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: -19px;
+    max-width: 100%;
+    min-width: 100px;
+    width:1969.8px;
+    overflow: hidden;
+    text-align: center;
+    background-color: white ;
+}
+#dv1 {
+    width: 15%;
+    height: 1000px;
+    background-color: #D5F5E3;
+    margin-right: auto;
+    margin-left: auto;
+    float:right;
+}
+#side
+{
+height: 1000px;
+width: 15%;
+background-color: #D5F5E3       ;
+margin-right: auto;
+margin-left: auto;
+float: left;
+max-width: 100%;
+min-width: 100px;
+}
+#bot
+{
+height: 50px;
+width: 14%;
+background-color:red;
+}
+#but
+{
+margin-top: 10%;
+}
+#log
+{
+position: static;
+margin-left: -375px;
+margin-top: -10px;
+}
