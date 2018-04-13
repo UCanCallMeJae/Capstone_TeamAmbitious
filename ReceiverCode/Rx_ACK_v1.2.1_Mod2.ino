@@ -1,4 +1,4 @@
-//SLAVE - RECEIVER
+//SLAVE - RECEIVER - Water Module
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
@@ -14,7 +14,6 @@ char dataReceived[10]; //MUST MATCH Tx
 int ackData[2] = {109, -4000}; //ACK data we send to master, to confirm received data
 bool newData = false; //Boolean used for obvious reasons
 int moistureLevel = 438;
-int trashLevel = 75;
 int waterOn = 0;
 int pinLED = 4;
 
@@ -22,16 +21,7 @@ int pinLED = 4;
 int LEDState = 0;
 bool LED = false;
 
-//===================>HC SR04 - MODULE Vars
-const int trigPin = 3;
-const int echoPin = 5;
-long duration;
-int distance;
-
-const int trigPin1 = 6;
-const int echoPin1 = 9;
-long duration1;
-long distance1;
+//===================>Relay - Vars
 
 int RelayPin = 2;
 int RelayState = 0;
@@ -44,11 +34,6 @@ bool RELAY = false;
 void setup() {// put your setup code here, to run once:
   Serial.begin(9600);
   pinMode(4, OUTPUT);
-  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
-  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
-  pinMode(trigPin1, OUTPUT); // Sets the trigPin as an Output
-  pinMode(echoPin1, INPUT); // Sets the echoPin as an Input
-
   pinMode(RelayPin, OUTPUT);
   
   Serial.println("Pin for LED powered!");
@@ -97,14 +82,14 @@ void showData() { //Show data
 //=================================>>
 void processData() { //Update our acknowledgment data
     
-    if(strcmp(dataReceived, "waterLvl") == 0){ // If the received command is WaterLvl
+    if(strcmp(dataReceived, "2waterLvl") == 0){ // If the received command is WaterLvl
       ackData[0] = '0'; //Assign this value to ackData index 0
       ackData[1] = moistureLevel; //Include the moisture level
     radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
    /** ackData[0] = '0';
     ackData[1] = '0'; **/
     }
-    if(strcmp(dataReceived, "water") == 0){
+    if(strcmp(dataReceived, "2water") == 0){
       waterOn ++;
       ackData[0] = '0';
       ackData[1] = waterOn;
@@ -112,34 +97,8 @@ void processData() { //Update our acknowledgment data
    /** ackData[0] = '0';
     ackData[1] = '0'; **/
     }
-    if(strcmp(dataReceived, "reset") == 0){
+    if(strcmp(dataReceived, "2reset") == 0){
      waterOn = 0;
-    }
-    if(strcmp(dataReceived, "trashLvl") == 0){
-      
-    /**radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
-    ackData[0] = '0';
-    ackData[1] = '0'; **/
-    storeTrashLvl(); /**Run our trash level func**/
-    Serial.println("Trash Lvl stored");
-    ackData[0] = '0';
-    ackData[1] = trashLevel;
-    }
-    if(strcmp(dataReceived, "gTrashLvl") == 0){
-    ackData[0] = '0';
-    ackData[1] = trashLevel; 
-    radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
-    ackData[0] = '0';
-    ackData[1] = '0'; 
-    Serial.println("Trash Lvl stored");
-    
-    }
-    if(strcmp(dataReceived, "LEDSTATE") == 0){
-      ackData[0] = '0';
-      ackData[1] = checkLEDState();
-    radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
-    ackData[0] = '0';
-    ackData[1] = '0';
     }
     if(strcmp(dataReceived, "2LED") == 0){
       changeLEDState();
@@ -150,14 +109,14 @@ void processData() { //Update our acknowledgment data
     ackData[1] = '0';
     }
 
-    if(strcmp(dataReceived, "RelayState") == 0){
+    if(strcmp(dataReceived, "2RelayState") == 0){
       ackData[0] = '0';
       ackData[1] = checkRelayState();
     radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
     ackData[0] = '0';
     ackData[1] = '0';
     }
-    if(strcmp(dataReceived, "RELAY") == 0){
+    if(strcmp(dataReceived, "2RELAY") == 0){
       changeRelayState();
       ackData[0] = '0';
       ackData[1] = checkRelayState();
@@ -213,16 +172,6 @@ void changeRelayState(){
     digitalWrite(RelayPin, LOW);
   }
 }
-//============================>>
-void storeTrashLvl(){
- 
-    activateSensor(trigPin, echoPin, 0);
-    delay(5);
-    activateSensor(trigPin1, echoPin1, 1);
-    
-    
-    trashLevel = (distance + distance1)/2;
-}
 //========================>>
 void startupSeq(){
   changeLEDState();
@@ -236,30 +185,3 @@ void startupSeq(){
   
 }
 // ===========================>>
-void activateSensor(const int triPin, const int echPin, int sensorID){
-   // Clears the trigPin
-    digitalWrite(triPin, LOW);
-    delayMicroseconds(2);
-    // Sets the trigPin on HIGH state for 10 micro seconds
-    digitalWrite(triPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(triPin, LOW);
-    // Reads the echoPin, returns the sound wave travel time in microseconds
-    
-    if(sensorID == 0){
-      // Calculating the distance
-      duration = pulseIn(echPin, HIGH);
-      distance= duration*0.034/2;
-      // Prints the distance on the Serial Monitor
-      delay(100); //So we get ONE value
-      Serial.println(distance);
-    }
-    if(sensorID == 1){
-      // Calculating the distance
-      duration1 = pulseIn(echPin, HIGH);
-      distance1 = duration1 *0.034/2;
-      // Prints the distance on the Serial Monitor
-      delay(100); //So we get ONE value
-      Serial.println(distance1);
-    }
-}
