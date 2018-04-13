@@ -1,4 +1,4 @@
-//SLAVE - RECEIVER
+//SLAVE - RECEIVER - Waste Bin Module
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
@@ -13,9 +13,7 @@ RF24 radio(CE_PIN, CSN_PIN); //Create radio
 char dataReceived[10]; //MUST MATCH Tx
 int ackData[2] = {109, -4000}; //ACK data we send to master, to confirm received data
 bool newData = false; //Boolean used for obvious reasons
-int moistureLevel = 438;
 int trashLevel = 75;
-int waterOn = 0;
 int pinLED = 4;
 
 // Vars for LED control 0 is off 1 is on
@@ -33,10 +31,6 @@ const int echoPin1 = 9;
 long duration1;
 long distance1;
 
-int RelayPin = 2;
-int RelayState = 0;
-bool RELAY = false;
-
 
 //======================>
 
@@ -49,7 +43,6 @@ void setup() {// put your setup code here, to run once:
   pinMode(trigPin1, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin1, INPUT); // Sets the echoPin as an Input
 
-  pinMode(RelayPin, OUTPUT);
   
   Serial.println("Pin for LED powered!");
   Serial.println("Radio program beginning...");
@@ -97,24 +90,6 @@ void showData() { //Show data
 //=================================>>
 void processData() { //Update our acknowledgment data
     
-    if(strcmp(dataReceived, "waterLvl") == 0){ // If the received command is WaterLvl
-      ackData[0] = '0'; //Assign this value to ackData index 0
-      ackData[1] = moistureLevel; //Include the moisture level
-    radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
-   /** ackData[0] = '0';
-    ackData[1] = '0'; **/
-    }
-    if(strcmp(dataReceived, "water") == 0){
-      waterOn ++;
-      ackData[0] = '0';
-      ackData[1] = waterOn;
-    radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
-   /** ackData[0] = '0';
-    ackData[1] = '0'; **/
-    }
-    if(strcmp(dataReceived, "reset") == 0){
-     waterOn = 0;
-    }
     if(strcmp(dataReceived, "trashLvl") == 0){
       
     /**radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
@@ -148,24 +123,7 @@ void processData() { //Update our acknowledgment data
     radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
     ackData[0] = '0';
     ackData[1] = '0';
-    }
-
-    if(strcmp(dataReceived, "RelayState") == 0){
-      ackData[0] = '0';
-      ackData[1] = checkRelayState();
-    radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
-    ackData[0] = '0';
-    ackData[1] = '0';
-    }
-    if(strcmp(dataReceived, "RELAY") == 0){
-      changeRelayState();
-      ackData[0] = '0';
-      ackData[1] = checkRelayState();
-    radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
-    ackData[0] = '0';
-    ackData[1] = '0';
-    }
-    
+    }  
     else{
      /** ackData[0] -= 1; //Index 0 is now value - 1
       ackData[1] -= 1;// Same for Index 1
@@ -194,23 +152,6 @@ void changeLEDState(){
     LEDState = 0;
     LED = false;
     digitalWrite(pinLED, LOW);
-  }
-}
-//============================>>
-int checkRelayState(){
-  return RelayState;
-}
-//=============================>>
-void changeRelayState(){
-  if(!RELAY){
-    RelayState = 1;
-    RELAY = true;
-    digitalWrite(RelayPin, HIGH);
-  }
-  else{
-    RelayState = 0;
-    RELAY = false;
-    digitalWrite(RelayPin, LOW);
   }
 }
 //============================>>
