@@ -1,227 +1,64 @@
-
-<style>
-
-#f2  {
-
-margin-left: 40px;
-margin-top: 27px;
-
-}
-
-#f3 {
-
-
-width: 100px;
-
-
-}
-
-
-
-#f10
-{
-    border-style: solid;
-    border-width:1px;
-    border-color: #D5DBDB;
-    border-radius: 6px;
-    height: 1000px;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: -19px;
-    max-width: 100%;
-    min-width: 100px;
-    width:1969.8px;
-    overflow: hidden;
-    text-align: center;
-    background-color: white ;
-}
-
-
-
-
-
-
-#dv1 {
-    width: 15%;
-    height: 1000px;
-    background-color: #D5F5E3;
-    margin-right: auto;
-    margin-left: auto;
-    float:right; 
-}
-
-#side
-
-{
-
-
-height: 1000px;
-width: 15%;
-background-color: #D5F5E3       ;
-margin-right: auto;
-margin-left: auto;
-
-float: left;
-max-width: 100%;
-min-width: 100px;
-
-
-}
-
-
-
-
-#bot
-
-{
-
-height: 50px;
-width: 14%;
-background-color:red;
-
-
-
-
-}
-
-
-
-
-#but
-
-{
-
-
-margin-top: 10%;
-
-}
-
-
-#log
-
-
-{
-
-
-position: static;
-margin-left: -375px;
-margin-top: -10px;
-
-}
-
-
-
-</style>
-
-
-
-
-
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> <script 
-src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> <script 
-src="//code.jquery.com/jquery-1.11.1.min.js"></script> <!------ Include the above in your HEAD tag ----------> <div 
-class="container-fluid">
-    <!-- Second navbar for sign in -->
-    <nav class="navbar navbar-default">
-	<a class="navbar-brand" href="#">
-      <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-2">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        
-
-
-
-
-<div id="log" ><img src="logo2.png" width="170" /></div>
-
-
-
-
-<a id="f1"  class="navbar-brand" href="#">
-
-
-
-
-
-
-
-
-
-
-
-        </div>
-    
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="navbar-collapse-2">
-          <ul  class="nav navbar-nav navbar-right">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Administrator</a></li>
-            <li><a href="#">Irrigation</a></li>
-            <li><a href="#">Modernized Screen</a></li>
-            <li><a href="#">Trash Can</a></li>
-            <li>
-              <a class="btn btn-default btn-outline btn-circle" data-toggle="collapse" href="#nav-collapse2" 
-aria-expanded="false" aria-controls="nav-collapse2">Logout</a>
-            </li
-          </ul>
-          <div class="collapse nav navbar-nav nav-collapse" id="nav-collapse2">
-            <form class="navbar-form navbar-right form-inline" role="form">
-              <div class="form-group">
-                <label class="sr-only" for="Email">Email</label>
-                <input type="email" class="form-control" id="Email" placeholder="Email" autofocus required />
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+    </style>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.jquery.js') }}"></script>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstyle.css') }}">
+    <!------ Include the above in your HEAD tag ---------->
+  </head>
+  <body>
+    <div class="container-fluid">
+      <!-- Second navbar for sign in -->
+      <nav class="navbar navbar-default">
+    	   <a class="navbar-brand" href="#">
+          <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-2">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <div id="log" >
+                <img src="static/logo2.png" width="170" />
               </div>
-              <div class="form-group">
-                <label class="sr-only" for="Password">Password</label>
-                <input type="password" class="form-control" id="Password" placeholder="Password" required />
+              <a id="f1"  class="navbar-brand" href="#">
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-collapse-2">
+              <ul  class="nav navbar-nav navbar-right">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Administrator</a></li>
+                <li><a href="#">Irrigation</a></li>
+                <li><a href="#">Modernized Screen</a></li>
+                <li><a href="#">Trash Can</a></li>
+                <li><a class="btn btn-default btn-outline btn-circle" data-toggle="collapse" href="#nav-collapse2" aria-expanded="false" aria-controls="nav-collapse2">Logout</a></li>
+              </ul>
+              <div class="collapse nav navbar-nav nav-collapse" id="nav-collapse2">
+                <form class="navbar-form navbar-right form-inline" role="form">
+                  <div class="form-group">
+                    <label class="sr-only" for="Email">Email</label>
+                    <input type="email" class="form-control" id="Email" placeholder="Email" autofocus required />
+                  </div>
+                  <div class="form-group">
+                    <label class="sr-only" for="Password">Password</label>
+                    <input type="password" class="form-control" id="Password" placeholder="Password" required />
+                  </div>
+                  <button type="submit" class="btn btn-success">Sign in</button>
+                </form>
               </div>
-              <button type="submit" class="btn btn-success">Sign in</button>
-            </form>
-          </div>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container -->
-    </nav><!-- /.navbar -->
-    
-<div id="f10">
-
-
-
-
-
-
-
-		<div id="side">	
-
-
-	
-		</div>
-
-
-
-
-			<div id="dv1">
-
-			</div>
-
-
-
-
-
-
-
-		
-
-
-
-
-</div>
-
-
-
-
-
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container -->
+        </nav><!-- /.navbar -->
+    <div id="f10">
+    		<div id="side">
+    		</div>
+    		<div id="dv1">
+    		</div>
+    </div>
+  </body>
+</html>
