@@ -11,6 +11,8 @@ Notes & Troubleshooting:
   - Where / is the directory from which the main Flask application is run
 - Images for slideshow should be in /static/
   - Where / is the directory from which the main Flask application is run
+- Javascript files should be in /static/js/
+  - Where / is the directory from which the main Flask application is run
   
 - Ensure that the master Arduino is plugged into the correct port (/dev/ACM* for Arduino devices) corresponding to the port defined in S2D.py
 
@@ -28,14 +30,14 @@ Notes & Troubleshooting:
 Pin Mappings
 ------------  
 
-Arduino Pin --> NRF24L01+ Pin:  
-  3.3v --> 1
-  GND --> 2
-  8 --> 3 (CSN)
-  7 --> 4 (CE)
-  ~11 --> 5 (MISO)
-  ~12 --> 6 (SCK)
-  ~13 --> 8 (MOSI)
+- Arduino Pin --> NRF24L01+ Pin:  
+ - 3.3v --> 1
+ - GND --> 2
+ - 8 --> 3 (CSN)
+ - 7 --> 4 (CE)
+ - ~11 --> 5 (MISO)
+ - ~12 --> 6 (SCK)
+ - ~13 --> 8 (MOSI)
  
  
   
