@@ -28,14 +28,18 @@ int RelayState = 0;
 bool RELAY = false;
 
 
+//======================> Moisture Sensors Vars
+int sensor_pin = A0;
+int output_value;
+int output_value_mapped;
+int PWR = 5;
 //======================>
-
 
 void setup() {// put your setup code here, to run once:
   Serial.begin(9600);
   pinMode(4, OUTPUT);
   pinMode(RelayPin, OUTPUT);
-  
+  pinMode(PWR, OUTPUT);
   Serial.println("Pin for LED powered!");
   Serial.println("Radio program beginning...");
   radio.begin(); //Begin radio setup
@@ -83,6 +87,7 @@ void showData() { //Show data
 void processData() { //Update our acknowledgment data
     
     if(strcmp(dataReceived, "2waterLvl") == 0){ // If the received command is WaterLvl
+      getMoistureValue();
       ackData[0] = '0'; //Assign this value to ackData index 0
       ackData[1] = moistureLevel; //Include the moisture level
     radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
@@ -185,3 +190,17 @@ void startupSeq(){
   
 }
 // ===========================>>
+void getMoistureValue(){
+  digitalWrite(PWR, HIGH);
+  delay(500);
+  output_value= analogRead(sensor_pin);
+  output_value_mapped = map(output_value,1005,335,0,100); //1005 IS WET, 335 IS DRY CHECK SOILCALIBRATION.INO
+  moistureLevel = output_value_mapped;
+  Serial.print("Mositure: ");
+  Serial.print(moistureLevel);
+  Serial.println("%");
+  delay(500);
+  digitalWrite(PWR,LOW);
+  delay(500);
+}
+
