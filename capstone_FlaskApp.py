@@ -70,10 +70,6 @@ def LED():
                 except (ValueError, UnboundLocalError):
                         two = "ERROR"
                         pass
-#        print(parseResponse)
-#        parseResponse.split(".")
-#        print(parseResponse)
-#       return "Command Sent"
                 return render_template('trashcan.html', response=two)
 
 @app.route('/trashcan.html')
@@ -82,7 +78,7 @@ def trashCanIndex():
 		return render_template('login.html')
 	else:
         	return render_template('trashcan.html')
-
+@app.route('/TrashLvl')
 def trashLvl():
 	if not session.get('logged_in'):
 		return render_template('login.html')
@@ -95,9 +91,6 @@ def trashLvl():
 			currentLevel = two
 		except (ValueError, UnboundLocalError):
 			currentLevel = "000"
-		parseResponse = receiveResponse()
-		parseResponse.split(".", 1)
-		print(parseResponse)
 		sql = "INSERT INTO TRASH (Level, Time) VALUES (%s, %s)"
 		try:
 			cursor.execute(sql, (currentLevel, timestamp))
@@ -111,7 +104,7 @@ def relay():
 	if not session.get('logged_in'):
 		return render_template('login.html')
 	else:
-		send("RELAY\n".encode())
+		send("2RELAY\n".encode())
 		return render_template('trashcan.html', response=receiveResponse())
 
 @app.route('/uploader', methods = ['POST'])
