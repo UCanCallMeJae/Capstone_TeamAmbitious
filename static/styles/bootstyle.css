@@ -57,3 +57,14 @@ position: static;
 margin-left: -375px;
 margin-top: -10px;
 }
+#slideContainer
+{
+	float: left;
+}
+#editImgTile
+{
+max-block-size: 150px;
+}
+.editImages{
+max-block-size:150px;
+}
