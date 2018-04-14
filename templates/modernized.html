@@ -4,25 +4,21 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Modernized screen</title>
 	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">	
+    	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstrap.min.css') }}">
+    	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    	<script src="{{ url_for('static', filename='js/bootstrap.min.jquery.js') }}"></script>
+    	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstyle.css') }}">
 </head>
 <body>
-
-{% include 'navbar.html' %}
-
-<div style="padding-left:16px">
-  
-</div>
-
-
-
-
-
-
-
-<header id="header"><p></p></header>
-
-	<div id="container">
-
+    <div class="container-fluid">
+      <!-- Second navbar for sign in -->
+      {% include 'navbar.html' %}
+    <div id="f10">
+    		<div id="side">
+    		</div>
+    		<div id="dv1">
+    		</div>
+		<div id="homeHeader">
 		<main id="center" class="column">
 			<h1>Modernized Screen</h1>
 			<form action = "http://192.168.0.144:5000/uploader" method = "POST" enctype = "multipart/form-data">
@@ -30,7 +26,7 @@
 				<input type = "submit"/>
 				<a href="http://192.168.0.144:5000/edit">Edit Pictures</a>
 			</form>
-			<div class = "slideContent" style="max-width:500px">
+			<div id="slideContainer" class = "slideContent" style="float: left;">
 			{% for item in img %}
 				<img class="mySlides" src='static/{{item[2]}}' alt='{{item[2]}}' style = 'width:100%'>
 			{% endfor %}
@@ -38,22 +34,8 @@
 			<div style="width:400px; margin-right:400px; margin-top:-90px; margin-left:auto; border:0px solid #000;"> 
 			</div>							
 		</main>
-
-		<nav id="left" class="column">
-			
-			<h3></h3>
-			
-		</nav>
-
-		<div id="right" class="column">
-			
 		</div>
-
-	</div>
-
-	<div id="footer-wrapper">
-		<footer id="footer"><p></p></footer>
-	</div>
+    </div>
 	<script>
 		var myIndex = 0;
 		carousel();
@@ -67,10 +49,7 @@
       			if (myIndex > x.length) {myIndex = 1}
       			x[myIndex-1].style.display = "block";
       			setTimeout(carousel, 1000); // Change image every 10 seconds
-  }
-
+  		}
 	</script>
-
-</body>
-
+  </body>
 </html>
