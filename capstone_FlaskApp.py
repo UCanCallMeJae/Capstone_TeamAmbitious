@@ -7,11 +7,9 @@ import time
 import os
 timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
 
-app = Flask(__name__) #Create objects
-#if __name__ == "__main__":
-app.secret_key = os.urandom(12)
-#app.run(debug=True, host='0.0.0.0', port=5000)
 
+app = Flask(__name__) #Create objects
+app.secret_key = os.urandom(12)
 
 
 #SQL Prep
@@ -20,7 +18,6 @@ cursor = db.cursor()
 
 #Path for uploaded files
 UPLOAD_FOLDER = '/home/pi/Desktop/Capstone/'
-
 
 @app.route('/')
 def index():
@@ -168,6 +165,21 @@ def template():
 	else:
 		return render_template('boot.html')
 
-#if __name__ == "__main__":
-#	app.secret_key = os.urandom(12)
-#	app.run(debug=True, host='0.0.0.0', port=5000)
+@app.route("/chart")
+def chart():
+	sql = "SELECT * FROM TRASH"
+	cursor.execute(sql)
+	values = cursor.fetchall()
+	valLevel = []
+	timeVal = []
+	for level in values:
+		valLevel.append(level[1])
+	for time in values:
+		timeVal.append(time[2])
+	return render_template('chart.html', values=valLevel, time=timeVal)
+
+
+
+if __name__ == "__main__":
+	app.secret_key = os.urandom(12)
+	app.run(debug=True, host='0.0.0.0')
