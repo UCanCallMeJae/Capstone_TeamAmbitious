@@ -90,7 +90,7 @@ void processData() { //Update our acknowledgment data
       getMoistureValue();
       ackData[0] = '0'; //Assign this value to ackData index 0
       ackData[1] = output_value_mapped; //Include the moisture level
-      Serial.println("Moisture value stored")
+      Serial.println("Moisture value stored");
    // radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
    /** ackData[0] = '0';
     ackData[1] = '0'; **/
