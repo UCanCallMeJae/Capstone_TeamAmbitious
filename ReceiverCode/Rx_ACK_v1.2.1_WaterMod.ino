@@ -86,21 +86,21 @@ void showData() { //Show data
 //=================================>>
 void processData() { //Update our acknowledgment data
     
-    if(strcmp(dataReceived, "2waterLvl") == 0){ // If the received command is WaterLvl
+    if(strcmp(dataReceived, "2waterLvl") == 0){ // Store moisture value
       getMoistureValue();
       ackData[0] = '0'; //Assign this value to ackData index 0
-      ackData[1] = moistureLevel; //Include the moisture level
-    radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
+      ackData[1] = output_value_mapped; //Include the moisture level
+      Serial.println("Moisture value stored")
+   // radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
    /** ackData[0] = '0';
     ackData[1] = '0'; **/
     }
-    if(strcmp(dataReceived, "2water") == 0){
-      waterOn ++;
+    if(strcmp(dataReceived, "2water") == 0){ //Send moisture value back
       ackData[0] = '0';
-      ackData[1] = waterOn;
+      ackData[1] = output_value_mapped;
     radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
-   /** ackData[0] = '0';
-    ackData[1] = '0'; **/
+    ackData[0] = '0';
+    ackData[1] = '0';
     }
     if(strcmp(dataReceived, "2reset") == 0){
      waterOn = 0;
