@@ -12,6 +12,7 @@ Notes & Troubleshooting:
 - Images for slideshow should be in /static/
   - Where / is the directory from which the main Flask application is run
   - Ensure static/ has the appropriate permissions so flaskApp can save them in the directory
+  - Ensure the UPLOAD_FOLDER variable has the appropriate path to store images
 - Javascript files should be in /static/js/
   - Where / is the directory from which the main Flask application is run
   
