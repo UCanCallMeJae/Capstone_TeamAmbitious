@@ -11,6 +11,7 @@ Notes & Troubleshooting:
   - Where / is the directory from which the main Flask application is run
 - Images for slideshow should be in /static/
   - Where / is the directory from which the main Flask application is run
+  - Ensure static/ has the appropriate permissions so flaskApp can save them in the directory
 - Javascript files should be in /static/js/
   - Where / is the directory from which the main Flask application is run
   
