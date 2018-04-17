@@ -31,6 +31,8 @@ const int echoPin1 = 9;
 long duration1;
 long distance1;
 
+int trash_level_mapped;
+
 
 //======================>
 
@@ -98,11 +100,11 @@ void processData() { //Update our acknowledgment data
     storeTrashLvl(); /**Run our trash level func**/
     Serial.println("Trash Lvl stored");
     ackData[0] = '0';
-    ackData[1] = trashLevel;
+    ackData[1] = trash_level_mapped;
     }
     if(strcmp(dataReceived, "gTrashLvl") == 0){
     ackData[0] = '0';
-    ackData[1] = trashLevel; 
+    ackData[1] = trash_level_mapped; 
     radio.writeAckPayload(1, &ackData, sizeof(ackData)); // load the payload for the next time it receives something
     ackData[0] = '0';
     ackData[1] = '0'; 
@@ -163,6 +165,7 @@ void storeTrashLvl(){
     
     
     trashLevel = (distance + distance1)/2;
+    trash_level_mapped = map(trashLevel, 2, 1700, 0, 100);
 }
 //========================>>
 void startupSeq(){
