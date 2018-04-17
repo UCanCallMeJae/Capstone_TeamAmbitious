@@ -8,6 +8,7 @@
     	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     	<script src="{{ url_for('static', filename='js/bootstrap.min.jquery.js') }}"></script>
     	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstyle.css') }}">
+	<script src='static/js/chart.min.js'></script>
 </head>
 	 <body>
 	    <div class="container-fluid">
@@ -21,16 +22,64 @@
 	 		<main id="center" class="column">
 		                <h1>Trash Can</h1>
 		                                  <form action="http://192.168.0.144:5000/TrashLvl">
-		                                    <button type="submit">Check trash level!</button>
+		                                    <button class="btn btn-primary" type="submit">Check trash level!</button>
 		                                  </form>
-		                                  <form action="http://192.168.0.144:5000/LEDLvl">
-		                                    <button type="submit">LED</button>
-		                                  </form>
-						  <form action="http://192.168.0.144:5000/RelayState">
-						    <button type="submit">Relay</button>
-						  </form>
+				<div id="chartDiv" style="float: right;">
+					<h3>Waste Bin Data</h3>
+					<canvas id="chart" width="400px" height="400px"></canvas>
+				</div>
+				<div id="listDiv" style="float: left;">
+					<h3>Recent Polls</h3>
+					<table>
+						<tr>
+							<td>ID</td><td>Level</td><td>Date</td>
+						</tr>
+						{% for item in elements %}
+						<tr>
+						<td style="color: {{ item[3] }}">{{ item[0] }}</td>
+						<td style="color: {{ item[3] }}">{{ item[1] }}</td>
+						<td style="color: {{ item[3] }}">{{ item[2] }}</td>
+						</tr>
+						{% endfor %}
+					</table>>
+				</div>
 		        	<h3>{{ response }}</h3>
+			<div>
+			</div>
 		        </main>
 	    </div>
+		<script>
+			// bar chart data
+       var barData = {
+       labels : [{% for item in time %}
+                      "{{item}}",
+                  {% endfor %}],
+       datasets : [
+          {
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+             data : [{% for item in values %}
+                          {{item}},
+                        {% endfor %}]
+          }
+          ]
+       }
+       // get bar chart canvas
+       var mychart = document.getElementById("chart").getContext("2d");
+       steps = 10
+       max = 100
+       // draw bar chart
+       new Chart(mychart).Bar(barData, {
+            scaleOverride: true,
+	    scaleSteps: steps,
+            scaleStepWidth: Math.ceil(max / steps),
+            scaleStartValue: 0,
+            scaleShowVerticalLines: true,
+            scaleShowGridLines : true,
+            barShowStroke : true,
+            scaleShowLabels: true
+       });
+		</script>
 	  </body>
 </html>

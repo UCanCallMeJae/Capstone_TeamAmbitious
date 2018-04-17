@@ -1,0 +1,30 @@
+ <!DOCTYPE html>
+<html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Trash Can</title>
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+    	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstrap.min.css') }}">
+    	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    	<script src="{{ url_for('static', filename='js/bootstrap.min.jquery.js') }}"></script>
+    	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstyle.css') }}">
+	<script src='static/js/chart.min.js'></script>
+</head>
+	 <body>
+	    <div class="container-fluid">
+	      <!-- Second navbar for sign in -->
+	      {% include 'navbar.html' %}
+	    <div id="f10">
+	    		<div id="side">
+	    		</div>
+	    		<div id="dv1">
+	    		</div>
+	 		<main id="center" class="column">
+		                <h1>Administration Hub</h1>
+		        	<h3>{{ response }}</h3>
+			<div>
+			</div>
+		        </main>
+	    </div>
+	  </body>
+</html>
