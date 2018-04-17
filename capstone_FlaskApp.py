@@ -93,8 +93,6 @@ def trashCanIndex():
 				newTup.append(level)
 		for time in values:
 			timeVal.append(time[2])
-		print(newTup)
-		print(newTup[0][3])
 		return render_template('trashcan.html', values=valLevel, time=timeVal, elements=newTup)
 
 
