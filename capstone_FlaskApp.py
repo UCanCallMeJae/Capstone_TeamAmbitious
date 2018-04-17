@@ -17,7 +17,7 @@ db = pymysql.connect("127.0.0.1", "pi", "pi", "Capstone")
 cursor = db.cursor()
 
 #Path for uploaded files
-UPLOAD_FOLDER = '/home/pi/Desktop/Capstone/'
+UPLOAD_FOLDER = '/home/pi/Desktop/Capstone/Capstone_TeamAmbitious'
 
 @app.route('/')
 def index():
@@ -42,7 +42,7 @@ def irrigationIndex():
 @app.route('/login', methods=['POST'])
 def do_admin_login():
 	if request.form['password'] == 'password' and request.form['username'] == 'admin':
-		session['logged_in'] = True	
+		session['logged_in'] = True
 	return index()
 
 @app.route('/modernized.html')
@@ -58,23 +58,46 @@ def modernizedIndex():
 
 @app.route('/LEDLvl')
 def LED():
-        if not session.get('logged_in'):
-                return render_template('login.html')
-        else:
-                send('LED\n'.encode()) #Command sent using send() from s2d
-                try:
-                        one, two = receiveResponse().decode().split(",")
-                except (ValueError, UnboundLocalError):
-                        two = "ERROR"
-                        pass
-                return render_template('trashcan.html', response=two)
+	if not session.get('logged_in'):
+		return render_template('login.html')
+	else:
+		send('LED\n'.encode()) #Command sent using send() from s2d
+		try:
+			one, two = receiveResponse().decode().split(",")
+		except (ValueError, UnboundLocalError):
+			two = "ERROR"
+			pass
+		return render_template('trashcan.html', response=two)
 
 @app.route('/trashcan.html')
 def trashCanIndex():
 	if not session.get('logged_in'):
 		return render_template('login.html')
 	else:
-        	return render_template('trashcan.html')
+		sql = "SELECT * FROM TRASH ORDER BY id DESC LIMIT 15"
+		cursor.execute(sql)
+		values = cursor.fetchall()
+		valLevel = []
+		timeVal = []
+		newTup = []
+		for level in values:
+			valLevel.append(level[1])
+			if level[1] < 30:
+				level += ("green",)
+				newTup.append(level)
+			if level[1] >= 31 and level[1] <=69:
+				level += ("yellow",)
+				newTup.append(level)
+			if level[1] >= 70:
+				level += ("red",)
+				newTup.append(level)
+		for time in values:
+			timeVal.append(time[2])
+		print(newTup)
+		print(newTup[0][3])
+		return render_template('trashcan.html', values=valLevel, time=timeVal, elements=newTup)
+
+
 @app.route('/TrashLvl')
 def trashLvl():
 	if not session.get('logged_in'):
@@ -149,7 +172,7 @@ def makeChanges():
 			image_path = img_name[0][1]
 			print(image_path)
 			try:
-				cursor.execute(sql2, (response))
+				cursor.execute(sql2, (img))
 				db.commit()
 				os.remove(image_path)
 				print("REMOVED")
@@ -158,26 +181,12 @@ def makeChanges():
 				print("Error removing")
 		return modernizedIndex()
 
-@app.route('/template')
-def template():
+@app.route('/administration.html')
+def administrator():
 	if not session.get('logged_in'):
 		return render_template('login.html')
 	else:
-		return render_template('boot.html')
-
-@app.route("/chart")
-def chart():
-	sql = "SELECT * FROM TRASH"
-	cursor.execute(sql)
-	values = cursor.fetchall()
-	valLevel = []
-	timeVal = []
-	for level in values:
-		valLevel.append(level[1])
-	for time in values:
-		timeVal.append(time[2])
-	return render_template('chart.html', values=valLevel, time=timeVal)
-
+		return render_template('administration.html')
 
 
 if __name__ == "__main__":
