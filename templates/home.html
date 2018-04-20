@@ -1,27 +1,33 @@
+
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-    </style>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
+    <title>Administrator</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/home.css') }}">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstrap.min.css') }}">
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.jquery.js') }}"></script>
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstyle.css') }}">
-    <!------ Include the above in your HEAD tag ---------->
+    <script src='static/js/chart.min.js'></script>
   </head>
   <body>
     <div class="container-fluid">
-      <!-- Second navbar for sign in -->
       {% include 'navbar.html' %}
     <div id="f10">
+    <br><br><br><br><br><br><br>
+    <div id="shell">
+    <p>Welcome to smart park.....</p>
+    </div>
+    <div id="sense">
+    <p>Recent sensor polls</p>
+    </div>
+    <div id="gra">
+    <p> Graph goes here</p>
+    </div>
     		<div id="side">
     		</div>
-    		<div id="dv1">
-    		</div>
-		<div id="homeHeader">
-		<h2>Home</h2>
-		</div>
-
+    			<div id="dv1">
+    			</div>
     </div>
   </body>
 </html>
