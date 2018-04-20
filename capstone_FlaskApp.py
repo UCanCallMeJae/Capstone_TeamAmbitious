@@ -37,8 +37,49 @@ def irrigationIndex():
 	if not session.get('logged_in'):
 		return render_template('login.html')
 	else:
-        	return render_template('irrigation.html')
+		sql = "SELECT * FROM WATER ORDER BY id DESC LIMIT 15"
+		cursor.execute(sql)
+		values = cursor.fetchall()
+		valLevel = []
+		timeVal = []
+		newTup = []
+		for level in values:
+			valLevel.append(level[1])
+			if level[1] >= 30:
+				level += ("#00d95a",)
+				newTup.append(level)
+			if level[1] > 10 and level[1] <=29:
+				level += ("#ff6a00",)
+				newTup.append(level)
+			if level[1] <= 10:
+				level += ("#ff0016",)
+				newTup.append(level)
+		for time in values:
+			timeVal.append(time[2])
+		return render_template('irrigation.html', values=valLevel, time=timeVal, elements=newTup)
 
+@app.route('/irrigationQuery')
+def irrigationStoreVal():
+		if not session.get('logged_in'):
+			return render_template('login.html')
+		else:
+			send("2waterLvl\n".encode())
+			time.sleep(2)
+			send("2water\n".encode())
+			try:
+				one, two = receiveResponse().decode().split(",")
+				currentLevel = two
+			except (ValueError, UnboundLocalError):
+				currentLevel = "000"
+				print("Error getting moisture value")
+			sql = "INSERT INTO WATER (Level, Time) VALUES (%s, %s)"
+			try:
+				cursor.execute(sql, (currentLevel, timestamp))
+				db.commit()
+			except:
+				db.rollback()
+				print("Error storing moist value")
+			return irrigationIndex()
 @app.route('/login', methods=['POST'])
 def do_admin_login():
 	if request.form['password'] == 'password' and request.form['username'] == 'admin':
@@ -67,7 +108,7 @@ def LED():
 		except (ValueError, UnboundLocalError):
 			two = "ERROR"
 			pass
-		return render_template('trashcan.html', response=two)
+		return administrator()
 
 @app.route('/trashcan.html')
 def trashCanIndex():
@@ -83,13 +124,13 @@ def trashCanIndex():
 		for level in values:
 			valLevel.append(level[1])
 			if level[1] < 30:
-				level += ("green",)
+				level += ("#ff0016",) #Red
 				newTup.append(level)
-			if level[1] >= 31 and level[1] <=69:
-				level += ("yellow",)
+			if level[1] >= 31 and level[1] <=59:
+				level += ("#ff6a00",) #Amber
 				newTup.append(level)
-			if level[1] >= 70:
-				level += ("red",)
+			if level[1] >= 60:
+				level += ("#00d95a",) #Green
 				newTup.append(level)
 		for time in values:
 			timeVal.append(time[2])
@@ -116,14 +157,14 @@ def trashLvl():
 		except:
 			db.rollback()
 			print("ERROR")
-		return render_template("trashcan.html", response=currentLevel)
+		return trashCanIndex()
 @app.route('/RelayState')
 def relay():
 	if not session.get('logged_in'):
 		return render_template('login.html')
 	else:
 		send("2RELAY\n".encode())
-		return render_template('trashcan.html', response=receiveResponse())
+		return irrigationIndex()
 
 @app.route('/uploader', methods = ['POST'])
 def upload_file():
@@ -144,7 +185,7 @@ def upload_file():
 			except:
 				db.rollback()
 				print("ERROR")
-		return modernizedIndex()
+		return administrator()
 
 @app.route('/edit')
 def edit_images():
@@ -177,7 +218,7 @@ def makeChanges():
 			except:
 				db.rollback()
 				print("Error removing")
-		return modernizedIndex()
+		return administrator()
 
 @app.route('/administration.html')
 def administrator():

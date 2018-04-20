@@ -1,30 +1,46 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-<head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Trash Can</title>
-	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
-    	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstrap.min.css') }}">
-    	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    	<script src="{{ url_for('static', filename='js/bootstrap.min.jquery.js') }}"></script>
-    	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstyle.css') }}">
-	<script src='static/js/chart.min.js'></script>
-</head>
-	 <body>
-	    <div class="container-fluid">
-	      <!-- Second navbar for sign in -->
-	      {% include 'navbar.html' %}
-	    <div id="f10">
-	    		<div id="side">
-	    		</div>
-	    		<div id="dv1">
-	    		</div>
-	 		<main id="center" class="column">
-		                <h1>Administration Hub</h1>
-		        	<h3>{{ response }}</h3>
-			<div>
-			</div>
-		        </main>
-	    </div>
-	  </body>
+  <head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
+    <title>Administrator</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/admin.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.jquery.js') }}"></script>
+    <script src='static/js/chart.min.js'></script>
+    <!------ Include the above in your HEAD tag ---------->
+  </head>
+  <body>
+    <div class="container-fluid">
+        <!-- Second navbar for sign in -->
+        {% include 'navbar.html' %}
+    <div id="f10">
+    <br><br><br><br><br><br><br>
+    <div id="led">
+    <a href="http://192.168.0.144:5000/LEDLvl"><button id="ledbutton" type="button" class="btn btn-warning">LED Button</button></a>
+    </div>
+    <div id="waste">
+    <a href="http://192.168.0.144:5000/TrashLvl"><button id="wastebutton"  type="button" class="btn btn-success">Waste Sensor</button></a>
+    <a href="http://192.168.0.144:5000/trashcan.html"><button id="linktrash"  type="button" class="btn btn-info">Link to Trash Tab</button></a>
+    </div>
+    <div id="moist">
+    <a href="http://192.168.0.144:5000/irrigation.html"><button id="moistbutton"  type="button" class="btn btn-primary">Link to irrigation tab</button></a>
+    </div>
+    <div id="upload">
+    <form action="http://192.168.0.144:5000/uploader" method="POST" enctype="multipart/form-data">
+	<table>
+	<tr>
+    <td><input id="uploadbutton" type="submit" class="btn btn-success"></button></td
+    <td><input type="file" name="file" id="browse" type="button" class="btn btn-danger"></button></td>
+    <td><a href="http://192.168.0.144:5000/edit"><button id="lin"  type="button" class="btn btn-info">link to edit page</button></a></td>
+	</tr>
+	</table>
+    </form>
+	 </div>
+    		<div id="side">
+    		</div>
+    			<div id="dv1">
+    			</div>
+    </div>
+  </body>
 </html>

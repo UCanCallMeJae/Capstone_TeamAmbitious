@@ -1,0 +1,113 @@
+#f2 {
+margin-left: 40px;
+margin-top: 27px;
+}
+#f3 {
+width: 100px;
+}
+#f10
+{
+    border-style: solid;
+    border-width:1px;
+    border-color: #D5DBDB;
+    border-radius: 6px;
+    height: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: -19px;
+    max-width: 100%;
+    min-width: 100px;
+    width:1969.8px;
+    overflow: hidden;
+    text-align: center;
+    background-color: white ;
+}
+#dv1 {
+    width: 15%;
+    height: 2000px;
+    background-color: #D5F5E3;
+    margin-right: auto;
+    margin-left: auto;
+    float:right;
+    margin-top: -920px;
+}
+#side
+{
+height: 2000px;
+width: 15%;
+background-color: #D5F5E3       ;
+margin-right: auto;
+margin-left: auto;
+margin-top: -920px;
+float: left;
+max-width: 100%;
+min-width: 100px;
+}
+#bot
+{
+height: 50px;
+width: 14%;
+background-color:red;
+}
+#but
+{
+margin-top: 10%;
+}
+#log
+{
+position: static;
+margin-top: -20px;
+margin-left: -324px;
+}
+#iri
+{
+border-style: solid;
+    border-width: 1px;
+    border-color: green;
+    border-radius: 10px;
+    width:61%;
+    height: 78%;
+    background-color:  #f2f3f4  ;
+    position: absolute;
+    top: 15%;
+    left:1%;
+    right:1%;
+    margin:0 auto;
+}
+#graph
+{
+    border-style: solid;
+    border-width: 1px;
+    border-color: green;
+    border-radius: 10px;
+    width:65%;
+    height: 90%;
+    background-color:  #f2f3f4  ;
+    position: absolute;
+    top: 5%;
+    left:30%;
+    right:0;
+    margin:0 auto;
+}
+#button
+{
+     float:left;
+     top: 30%;
+     margin-left:2%;
+     margin-top: 7%;
+     width:20%;
+     height:7%;
+}
+#tab{
+margin-right: 68%;
+margin-top: 8%;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}

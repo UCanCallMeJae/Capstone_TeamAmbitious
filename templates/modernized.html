@@ -1,55 +1,48 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Modernized screen</title>
-	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">	
-    	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstrap.min.css') }}">
-    	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    	<script src="{{ url_for('static', filename='js/bootstrap.min.jquery.js') }}"></script>
-    	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstyle.css') }}">
-</head>
-<body>
-    <div class="container-fluid">
-      <!-- Second navbar for sign in -->
-      {% include 'navbar.html' %}
-    <div id="f10">
-    		<div id="side">
-    		</div>
-    		<div id="dv1">
-    		</div>
-		<div id="homeHeader">
-		<main id="center" class="column">
-			<h1>Modernized Screen</h1>
-			<form action = "http://192.168.0.144:5000/uploader" method = "POST" enctype = "multipart/form-data">
-				<input type = "file" name = "file" />
-				<input type = "submit"/>
-				<a href="http://192.168.0.144:5000/edit">Edit Pictures</a>
-			</form>
-			<div id="slideContainer" class = "slideContent" style="float: left;">
-			{% for item in img %}
-				<img class="mySlides" src='static/{{item[2]}}' alt='{{item[2]}}' style = 'width:100%'>
-			{% endfor %}
-			</div>
-			<div style="width:400px; margin-right:400px; margin-top:-90px; margin-left:auto; border:0px solid #000;"> 
-			</div>							
-		</main>
-		</div>
+  <head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
+    <title>Modernized Screen</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/modernized.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.jquery.js') }}"></script>
+    <script src='static/js/chart.min.js'></script>
+    <!------ Include the above in your HEAD tag ---------->
+  </head>
+  <body>
+    <div id="overlay" onclick="off()">
+      {% for item in img %}
+        <img id="test" src="static/{{item[2]}}" alt="{{item[2]}}" class="mySlides">
+      {% endfor %}
     </div>
-	<script>
-		var myIndex = 0;
-		carousel();
-		function carousel() {
-      			var i;
-      			var x = document.getElementsByClassName("mySlides");
-      			for (i = 0; i < x.length; i++) {
-         			x[i].style.display = "none";
-      			}
-      			myIndex++;
-      			if (myIndex > x.length) {myIndex = 1}
-      			x[myIndex-1].style.display = "block";
-      			setTimeout(carousel, 1000); // Change image every 10 seconds
-  		}
-	</script>
+    <div style="padding:20px">
+      <h2>Overlay</h2>
+      <p>Add an overlay effect to the page content (100% width and height with a black background color with 50% opacity).</p>
+      <button onclick="on()">Turn on overlay effect</button>
+	<a href="home.html">Go Home</a>
+    </div>
+    <script>
+    function on() {
+        document.getElementById("overlay").style.display = "block";
+    }
+
+    function off() {
+        document.getElementById("overlay").style.display = "none";
+    }
+    var myIndex = 0;
+    		carousel();
+    		function carousel() {
+          			var i;
+          			var x = document.getElementsByClassName("mySlides");
+          			for (i = 0; i < x.length; i++) {
+             			x[i].style.display = "none";
+          			}
+          			myIndex++;
+          			if (myIndex > x.length) {myIndex = 1}
+          			x[myIndex-1].style.display = "block";
+          		        setTimeout(carousel, 2000);
+      		}
+    </script>
   </body>
 </html>

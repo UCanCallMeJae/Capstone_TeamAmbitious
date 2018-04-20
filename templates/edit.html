@@ -23,9 +23,10 @@
 			<h1>Edit Uploaded Images</h1>
 			<form action="/editDB" method="POST">
 				<table>
-				{% for item in img %}
+				{% for temp in img | batch(3) %}
 					<tr>
-			<td><img src='static/{{item[2]}}' alt='{{item[2]}}' style="max-block-size:150px;" ><input type="checkbox" name="img" value="{{item[0]}}"></td>
+				{% for item in temp %}
+					<td><img src='static/{{item[2]}}' alt='{{item[2]}}' style="max-block-size:150px;" ><input type="checkbox" name="img" value="{{item[0]}}"></td>{% endfor %}
 					</tr>
 				{% endfor %}
 				</table>

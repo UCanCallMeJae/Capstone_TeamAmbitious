@@ -1,29 +1,81 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Irrigation</title>
-	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">		
-    	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstrap.min.css') }}">
-    	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    	<script src="{{ url_for('static', filename='js/bootstrap.min.jquery.js') }}"></script>
-    	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstyle.css') }}">
-</head>
-<body>
+  <head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
+    <title>Administrator</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/irrigation.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.jquery.js') }}"></script>
+    <script src='static/js/chart.min.js'></script>
+    <!------ Include the above in your HEAD tag ---------->
+  </head>
+  <body>
     <div class="container-fluid">
-      <!-- Second navbar for sign in -->
-      {% include 'navbar.html' %}
+    {% include 'navbar.html' %}
     <div id="f10">
+    <br><br><br><br><br><br><br>
     		<div id="side">
     		</div>
-    		<div id="dv1">
-    		</div>	
-		<main id="center" class="column">
-			<h1>Irrigation</h1>
-				<button type="button">Water it!</button>
-				<button tye="button">Check the mositure level</button>
-		</main>
-		</div>
+    			<div id="dv1">
+    			</div>
+    <div id="iri">
+    <a href="http://192.168.0.144:5000/RelayState"><button id="button"  type="button" class="btn btn-primary">Start Watering</button></a>
+    <a href="http://192.168.0.144:5000/irrigationQuery"><button id="button" type="button" class="btn btn-primary">Check Moisture!</button></a>
+    <br><br><br><br>
+    <div id="tab">
+    <table>
+    <tr>
+        <th>ID</th>
+        <th>Level</th>
+        <th>Time</th>
+      </tr>
+	{% for item in elements %}
+           <tr>
+		<td style="color: {{ item[3] }}">{{ item[0] }}</td>
+                <td style="color: {{ item[3] }}">{{ item[1] }}</td>
+                <td style="color: {{ item[3] }}">{{ item[2] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
     </div>
+    <div id="graph">
+    <canvas id="chart" width="400px" height="400px"></canvas>
+    </div>
+    </div>
+    </div>
+    <script>
+    // bar chart data
+       var barData = {
+       labels : [{% for item in time %}
+                      "{{item}}",
+                  {% endfor %}],
+       datasets : [
+          {
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+             data : [{% for item in values %}
+                          {{item}},
+                        {% endfor %}]
+          }
+          ]
+       }
+       // get bar chart canvas
+       var mychart = document.getElementById("chart").getContext("2d");
+       steps = 10
+       max = 100
+       // draw bar chart
+       new Chart(mychart).Bar(barData, {
+            scaleOverride: true,
+            scaleSteps: steps,
+            scaleStepWidth: Math.ceil(max / steps),
+            scaleStartValue: 0,
+            scaleShowVerticalLines: true,
+            scaleShowGridLines : true,
+            barShowStroke : true,
+            scaleShowLabels: true
+       });
+       </script>
   </body>
 </html>

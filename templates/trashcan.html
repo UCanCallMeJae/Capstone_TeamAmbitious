@@ -21,9 +21,8 @@
 	    		</div>
 	 		<main id="center" class="column">
 		                <h1>Trash Can</h1>
-		                                  <form action="http://192.168.0.144:5000/TrashLvl">
-		                                    <button class="btn btn-primary" type="submit">Check trash level!</button>
-		                                  </form>
+		                                  
+		                                    <a href="http://192.168.0.144:5000/TrashLvl"><button class="btn btn-primary">Check trash level!</button></a>
 				<div id="chartDiv" style="float: right;">
 					<h3>Waste Bin Data</h3>
 					<canvas id="chart" width="400px" height="400px"></canvas>
@@ -37,7 +36,11 @@
 						{% for item in elements %}
 						<tr>
 						<td style="color: {{ item[3] }}">{{ item[0] }}</td>
+						{% if item[1] > 100 %}
+						<td style="color: {{ item[3] }}">100</td>
+						{% else %}
 						<td style="color: {{ item[3] }}">{{ item[1] }}</td>
+						{% endif %}
 						<td style="color: {{ item[3] }}">{{ item[2] }}</td>
 						</tr>
 						{% endfor %}
