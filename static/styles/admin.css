@@ -1,0 +1,183 @@
+#f2 {
+margin-left: 40px;
+margin-top: 27px;
+}
+#f3 {
+width: 100px;
+}
+#f10
+{
+    border-style: solid;
+    border-width:1px;
+    border-color: #D5DBDB;
+    border-radius: 6px;
+    height: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: -19px;
+    max-width: 100%;
+    min-width: 100px;
+    width:1969.8px;
+    overflow: hidden;
+    text-align: center;
+    background-color: white ;
+}
+#dv1 {
+    width: 15%;
+    height: 2000px;
+    background-color: #D5F5E3;
+    margin-right: auto;
+    margin-left: auto;
+    float:right;
+    margin-top: -920px;
+
+}
+#side
+{
+height: 2000px;
+width: 15%;
+background-color: #D5F5E3       ;
+margin-right: auto;
+margin-left: auto;
+margin-top: -920px;
+float: left;
+max-width: 100%;
+min-width: 100px;
+}
+#bot
+{
+height: 50px;
+width: 14%;
+background-color:red;
+}
+#but
+{
+margin-top: 10%;
+}
+#log
+{
+position: static;
+margin-top: -10px;
+margin-left: -324px;
+}
+#led
+{
+    border-style: solid;
+    border-width: 1px;
+    border-color: green;
+    border-radius: 10px;
+    width:28%;
+    height: 20%;
+    background-color:  #f2f3f4  ;
+    position: absolute;
+    top: 14%;
+    left:20%;
+    right:85%;
+    margin:0 auto;
+}
+#waste
+{
+    border-style: solid;
+    border-width: 1px;
+    border-color: green;
+    border-radius: 10px;
+
+
+    width:28%;
+    height: 30%;
+    background-color:  #f2f3f4  ;
+
+
+    position: absolute;
+    top: 40%;
+    left:20%;
+    right:85%;
+    margin:0 auto;
+}
+#moist
+{
+    border-style: solid;
+    border-width: 1px;
+    border-color: green;
+    border-radius: 10px;
+    width:28%;
+    height: 56%;
+    background-color:  #f2f3f4  ;
+    position: absolute;
+    top: 14%;
+    left:52%;
+    right:85%;
+    margin:0 auto;
+}
+#upload
+{
+border-style: solid;
+    border-width: 1px;
+    border-color: green;
+    border-radius: 10px;
+
+
+    width:60%;
+    height: 20%;
+    background-color:  #f2f3f4  ;
+
+
+    position: absolute;
+    top: 75%;
+    left:20%;
+    right:85%;
+    margin:0 auto;
+}
+#ledbutton
+{
+position: absolute;
+top: 5%;
+left: 2%;
+right: 90%;
+margin: 0 auto;
+}
+#wastebutton
+{
+position: absolute;
+top: 5%;
+left: 2%;
+right: 90%;
+margin: 0 auto;
+}
+#linktrash
+{
+    position: absolute;
+    top: 83%;
+    left:2%;
+    right:90%;
+    margin:0 auto;
+}
+#moistbutton{
+position: absolute;
+top: 91%;
+left:2%;
+right:90%;
+margin: 0 auto;
+}
+#uploadbutton
+{
+position: absolute;
+top: 39%;
+left: 12%;
+right: 90%;
+margin: 0 auto;
+}
+#browse{
+position: absolute;
+top: 39%;
+left: 47%;
+right: 90%;
+margin: 0 auto;
+}
+#lin{
+position: absolute;
+top: 39%;
+left: 75%;
+right: 90%;
+margin: 0 auto;
+}
