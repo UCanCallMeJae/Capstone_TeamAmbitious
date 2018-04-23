@@ -31,6 +31,19 @@ def homeindex():
 	if not session.get('logged_in'):
 		return render_template('login.html')
 	else:
+#		sql1 = "SELECT * FROM WATER ORDER BY id DESC LIMIT 1"
+#		sql2 = "SELECT * FROM TRASH ORDER BY id DESC LIMIT 1"
+#		cursor.execute(sql1)
+#		waterVal = cursor.fetchone()
+#		cursor.execute(sql2)
+#		trashVal = cursor.fetchone()
+#		waterTup = []
+#		trashTup = []
+#		for value in waterVal:
+#			waterTup.append(value)
+#			if waterVal[1] < 10:
+#				level = 
+				
         	return render_template('home.html')
 @app.route('/irrigation.html')
 def irrigationIndex():
@@ -46,13 +59,13 @@ def irrigationIndex():
 		for level in values:
 			valLevel.append(level[1])
 			if level[1] >= 30:
-				level += ("#00d95a",)
+				level += ("#00d95a",) #Green
 				newTup.append(level)
 			if level[1] > 10 and level[1] <=29:
-				level += ("#ff6a00",)
+				level += ("#ff6a00",) #Amber
 				newTup.append(level)
 			if level[1] <= 10:
-				level += ("#ff0016",)
+				level += ("#ff0016",) #Red
 				newTup.append(level)
 		for time in values:
 			timeVal.append(time[2])
@@ -85,6 +98,10 @@ def do_admin_login():
 	if request.form['password'] == 'password' and request.form['username'] == 'admin':
 		session['logged_in'] = True
 	return index()
+@app.route('/logout')
+def logout():
+	session['logged_in'] = False
+	return render_template('login.html')
 
 @app.route('/modernized.html')
 def modernizedIndex():
@@ -225,7 +242,28 @@ def administrator():
 	if not session.get('logged_in'):
 		return render_template('login.html')
 	else:
-		return render_template('administration.html')
+		sql = "SELECT * FROM WATER ORDER BY id DESC LIMIT 10"
+		cursor.execute(sql)
+		elements = cursor.fetchall()
+		valLevel = []
+		timeVal = []
+		newTup = []
+		for value in elements:
+			valLevel.append(value[1])
+			if value[1] >= 30:
+				value +=("#00d95a",) #Green
+				newTup.append(value)
+			if value[1] > 10 and value[1] <= 29:
+				value +=("#ff6a00",) #Amber
+				newTup.append(value)
+			if value[1] > 30 or value[1] <= 10:
+				value +=("#ff0016",) #Red
+				newTup.append(value)
+		for time in elements:
+			timeVal.append(time[2])
+		print(newTup)
+		return render_template('administration.html', values=newTup)
+
 
 
 if __name__ == "__main__":
