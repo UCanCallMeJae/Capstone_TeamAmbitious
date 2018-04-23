@@ -95,8 +95,8 @@ border-style: solid;
      top: 30%;
      margin-left:2%;
      margin-top: 7%;
-     width:20%;
-     height:7%;
+/**     width:20%;
+     height:7%; **/
 }
 #tab{
 margin-right: 68%;

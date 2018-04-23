@@ -24,6 +24,20 @@
     <a href="http://192.168.0.144:5000/trashcan.html"><button id="linktrash"  type="button" class="btn btn-info">Link to Trash Tab</button></a>
     </div>
     <div id="moist">
+		<table>
+			<tr>
+				<th>ID</th>
+				<th>Level</th>
+				<th>Date</th>
+			</tr>
+			{% for item in values %}
+			<tr>
+				<td style="color: {{ item[3] }};">{{ item[0] }} </td>
+				<td style="color: {{ item[3] }};">{{ item[1] }} </td>
+				<td style="color: {{ item[3] }};">{{ item[2] }} </td>
+			</tr>
+			{% endfor %}
+		</table>
     <a href="http://192.168.0.144:5000/irrigation.html"><button id="moistbutton"  type="button" class="btn btn-primary">Link to irrigation tab</button></a>
     </div>
     <div id="upload">
