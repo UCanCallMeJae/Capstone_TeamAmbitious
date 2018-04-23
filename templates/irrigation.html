@@ -20,10 +20,11 @@
     			<div id="dv1">
     			</div>
     <div id="iri">
-    <a href="http://192.168.0.144:5000/RelayState"><button id="button"  type="button" class="btn btn-primary">Start Watering</button></a>
-    <a href="http://192.168.0.144:5000/irrigationQuery"><button id="button" type="button" class="btn btn-primary">Check Moisture!</button></a>
     <br><br><br><br>
     <div id="tab">
+    <a href="http://192.168.0.144:5000/RelayState"><button id="button"  type="button" class="btn btn-primary">Start Watering</button></a>
+    <a href="http://192.168.0.144:5000/irrigationQuery"><button id="button" type="button" class="btn btn-primary">Check Moisture!</button></a>
+
     <table>
     <tr>
         <th>ID</th>
@@ -39,8 +40,8 @@
         {% endfor %}
     </table>
     </div>
-    <div id="graph">
-    <canvas id="chart" width="400px" height="400px"></canvas>
+    <div id="graph" style="max-height: 50%;">
+    <canvas id="chart" width="400px" height="400px" <!--style="max-width: 70%;max-height: 70%;float: right;"-->></canvas>
     </div>
     </div>
     </div>

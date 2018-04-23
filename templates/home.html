@@ -19,7 +19,22 @@
     <p>Welcome to smart park.....</p>
     </div>
     <div id="sense">
-    <p>Recent sensor polls</p>
+
+    <table>
+	<tr>
+	<th>ID</th>
+	<th>Level</th>
+	<th>Time</th>
+	</tr>
+	{% for item in element %}
+	<tr>
+		<td style="padding: 30px; color: {{ item[3] }};">{{ item[0] }}</td>
+		<td style="padding: 30px; color: {{ item[3] }};">{{ item[1] }}</td>
+		<td style="padding: 30px; color: {{ item[3] }};">{{ item[2] }}</td>
+	</tr>
+	{% endfor %}
+    </table>
+
     </div>
     <div id="gra">
     <p> Graph goes here</p>

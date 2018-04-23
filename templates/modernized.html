@@ -12,8 +12,21 @@
   </head>
   <body>
     <div id="overlay" onclick="off()">
+	<div id="overlay2">
+		<h2 id="eventsHeader">Upcoming Events</h2>	
+		<table id="eventTable">
+			<tr>
+				<td id="event">May 1st</td>
+				<td id="event">Farmers Market</td>
+			</tr>
+			<tr>
+				<td id="event">May 17th</td>
+				<td id="event">Dog Show</td>
+			</tr>
+		</table>
+	</div>
       {% for item in img %}
-        <img id="test" src="static/{{item[2]}}" alt="{{item[2]}}" class="mySlides">
+        <img id="test" src="static/{{item[2]}}" alt="{{item[2]}}" class="mySlides" style="width: 1280px; height: 760px;">
       {% endfor %}
     </div>
     <div style="padding:20px">
