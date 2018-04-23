@@ -1,3 +1,16 @@
+table{
+	margin-left: 17%;
+}
+#event{
+	padding-left: 25px;
+	color: white;
+	font-size: 60px;
+}
+#eventsHeader{
+	color: white;
+	padding-left: 17%;
+	font-size: 60px;
+}
 #overlay {
     position: fixed;
     display: none;
@@ -11,6 +24,18 @@
     z-index: 2;
     cursor: pointer;
 
+}
+#overlay2{
+    position: fixed; /* Sit on top of the page content */
+    display:block; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.3); /* Black background with opacity */
+    z-index: 2;
 }
 #test {
     margin-top: 25px;
