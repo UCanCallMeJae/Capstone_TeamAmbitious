@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+	{% include 'favicon.html' %}
     <meta http-equiv="content-type" content="text/html" charset="utf-8">
     <title>Administrator</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/admin.css') }}">
@@ -17,11 +18,14 @@
     <div id="f10">
     <br><br><br><br><br><br><br>
     <div id="led">
-    <a href="http://192.168.0.144:5000/LEDLvl"><button id="ledbutton" type="button" class="btn btn-warning">LED Button</button></a>
+    <a href="http://192.168.0.144:5000/LEDLvl"><button id="ledbutton" type="button" class="btn btn-warning">1st LED</button></a>
+    <a href="http://192.168.0.144:5000/2LEDLvl"><button id="2ledbutton" type="button" class="btn btn-primary" style="position: absolute;top: 70%;left: 2%;right: 90%;margin: 0 auto;">2nd LED</button></a>
     </div>
     <div id="waste">
     <a href="http://192.168.0.144:5000/TrashLvl"><button id="wastebutton"  type="button" class="btn btn-success">Waste Sensor</button></a>
     <a href="http://192.168.0.144:5000/trashcan.html"><button id="linktrash"  type="button" class="btn btn-info">Link to Trash Tab</button></a>
+	<img src="static/trash.svg" id="trashimg" >
+	<p style="font-size: 90px;position: absolute;top: {{ arrowPos }};left: 51%; color: {{ arrowCol }};">{% autoescape false %}&#8594;{% endautoescape %}</p>
     </div>
     <div id="moist">
 		<table>
@@ -38,10 +42,10 @@
 			</tr>
 			{% endfor %}
 		</table>
-    <a href="http://192.168.0.144:5000/irrigation.html"><button id="moistbutton"  type="button" class="btn btn-primary">Link to irrigation tab</button></a>
+    <a href="/irrigation.html"><button id="moistbutton"  type="button" class="btn btn-primary">Link to irrigation tab</button></a>
     </div>
     <div id="upload">
-    <form action="http://192.168.0.144:5000/uploader" method="POST" enctype="multipart/form-data">
+    <form action="/uploader" method="POST" enctype="multipart/form-data">
 	<table>
 	<tr>
     <td><input id="uploadbutton" type="submit" class="btn btn-success"></button></td
@@ -50,7 +54,12 @@
 	</tr>
 	</table>
     </form>
-	 </div>
+	<form action="http://192.168.0.144:5000/addevent" method="POST">
+		<input id="date" name="date" type="text">
+		<input id="event" name="event" type="text">
+		<input id="submit" value="submit" type="submit">
+	</form> <a href="/editEvents">Edit Events</a>
+	</div>
     		<div id="side">
     		</div>
     			<div id="dv1">
