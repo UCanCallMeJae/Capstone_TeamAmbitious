@@ -8,6 +8,12 @@ margin-top: 27px;
 #f3 {
 width: 100px;
 }
+#trashimg{
+width: 28%;
+height: 85%;
+margin-left: 65%;
+margin-top: 3%;
+}
 #f10
 {
     border-style: solid;
@@ -138,6 +144,13 @@ top: 5%;
 left: 2%;
 right: 90%;
 margin: 0 auto;
+}
+#ledbutton2{
+	position: absolute;
+	top: 68%;
+	left: 2%;
+	right: 90%;
+	margin: 0 auto;
 }
 #wastebutton
 {
