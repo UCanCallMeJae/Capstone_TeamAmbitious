@@ -109,9 +109,13 @@ def modernizedIndex():
 		return render_template('login.html')
 	else:
 		sql = "SELECT * FROM uploads"
+		sql2 = "SELECT * FROM events"
 		cursor.execute(sql)
 		data = cursor.fetchall()
-		return render_template('modernized.html', img=data)
+		cursor.execute(sql2)
+		events = cursor.fetchall()
+		print(events)
+		return render_template('modernized.html', img=data, events=events)
 
 
 @app.route('/LEDLvl')
@@ -124,6 +128,19 @@ def LED():
 			one, two = receiveResponse().decode().split(",")
 		except (ValueError, UnboundLocalError):
 			two = "ERROR"
+			pass
+		return administrator()
+@app.route('/2LEDLvl')
+def LED2():
+	if not session.get('logged_in'):
+		return render_template('login.html')
+	else:
+		send('2LED\n'.encode())
+		try:
+			one, two = receiveResponse().decode().split(",")
+		except:
+			two="ERROR"
+			print("Error sending 2LED")
 			pass
 		return administrator()
 
@@ -213,7 +230,36 @@ def edit_images():
 		cursor.execute(sql)
 		data = cursor.fetchall()
 		return render_template('edit.html', img=data)
-
+@app.route('/editEvents')
+def editEvents():
+	if not session.get('logged_in'):
+		return render_template('login.html')
+	else:
+		sql = "SELECT * FROM events"
+		try:
+			cursor.execute(sql)
+			events = cursor.fetchall()
+		except:
+			db.rollback()
+			print("Error fetching")
+			events = "000"
+		return render_template('editevents.html', events=events)
+@app.route('/submitEvents', methods=['POST'])
+def submiteditEvents():
+	if not session.get('logged_in'):
+		return render_template('login.html')
+	else:
+		response = request.form.getlist('eventCheck')
+		for event in response:
+			sql = "DELETE FROM events WHERE id IN (%s)"
+			try:
+				cursor.execute(sql, (event))
+				db.commit()
+				print("Event removed")
+			except:
+				db.rollback()
+				print("Error removing events")
+		return administrator()
 @app.route('/editDB', methods=['POST'])
 def makeChanges():
 	if not session.get('logged_in'):
@@ -242,7 +288,7 @@ def administrator():
 	if not session.get('logged_in'):
 		return render_template('login.html')
 	else:
-		sql = "SELECT * FROM WATER ORDER BY id DESC LIMIT 10"
+		sql = "SELECT * FROM WATER ORDER BY id DESC LIMIT 15"
 		cursor.execute(sql)
 		elements = cursor.fetchall()
 		valLevel = []
@@ -250,21 +296,46 @@ def administrator():
 		newTup = []
 		for value in elements:
 			valLevel.append(value[1])
-			if value[1] >= 30:
+			if value[1] >= 30 and value[1] <= 69:
 				value +=("#00d95a",) #Green
 				newTup.append(value)
 			if value[1] > 10 and value[1] <= 29:
 				value +=("#ff6a00",) #Amber
 				newTup.append(value)
-			if value[1] > 30 or value[1] <= 10:
+			if value[1] >= 70 or value[1] <= 10:
 				value +=("#ff0016",) #Red
 				newTup.append(value)
 		for time in elements:
 			timeVal.append(time[2])
-		print(newTup)
-		return render_template('administration.html', values=newTup)
+		sql2 = "SELECT * FROM TRASH ORDER BY id DESC LIMIT 1"
+		cursor.execute(sql2)
+		trashLvl = cursor.fetchone()
+		print(trashLvl)
+		if trashLvl[1] < 30:
+			arrowPos = "0%"
+			arrowCol = "#ff0016"
+		if trashLvl[1] >= 31 and trashLvl[1] <= 59:
+			arrowPos = "33%"
+			arrowCol = "#ff6a00"
+		if trashLvl[1] >= 60:
+			arrowPos = "57%"
+			arrowCol = "#00d95a"
+		return render_template('administration.html', values=newTup, arrowPos=arrowPos, arrowCol=arrowCol)
 
-
+@app.route('/addevent', methods=['POST'])
+def addevent():
+	date = request.form['date']
+	event = request.form['event']
+	print(date)
+	print(event)
+	sql = "INSERT INTO events (date, event) VALUES (%s, %s)"
+	try:
+		cursor.execute(sql, (date, event))
+		db.commit()
+	except:
+		db.rollback()
+		print("ERROR adding event")
+	return render_template('administration.html')
 
 if __name__ == "__main__":
 	app.secret_key = os.urandom(12)
